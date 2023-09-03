@@ -8,26 +8,13 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-// function createData(name, calories, fat, carbs, protein) {
-//   return { name, calories, fat, carbs, protein };
-// }
-
-// const rows = [
-//   createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-//   createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-//   createData("Eclair", 262, 16.0, 24, 6.0),
-//   createData("Cupcake", 305, 3.7, 67, 4.3),
-//   createData("Gingerbread", 356, 16.0, 49, 3.9),
-// ];
-//
-
 export default function EmployeeTable() {
   const [employees, setEmployees] = useState([]);
   console.log(employees);
 
   useEffect(() => {
     axios
-      .get("https://dummy.restapiexample.com/employees")
+      .get("https://dummy.restapiexample.com/api/v1/employees")
       .then((response) => {
         setEmployees(response.data.data);
       })
@@ -44,7 +31,7 @@ export default function EmployeeTable() {
             <TableCell>Employee Name</TableCell>
             <TableCell align="left">Salary</TableCell>
             <TableCell align="left">Age</TableCell>
-            <TableCell align="left">Profile Image</TableCell>
+            <TableCell align="left">Link</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
