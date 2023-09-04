@@ -10,9 +10,8 @@ body,
   width: 100%;
   font-family: "Source Sans 3", sans-serif;
 }
-.App {
-  display: flex;
-  position: relative;
+.app {
+  font-size: 1.5rem;
 }
 .MuiTableBody-root .MuiTableRow-root .css-1ex1afd-MuiTableCell-root,
 .MuiTableHead-root .MuiTableRow-root .MuiTableCell-head {
