@@ -41,8 +41,15 @@ const CustomButton = styled(Button)({
 
 export default function BasicTextFields() {
   const [formData, setFormData] = React.useState({
-    id: 0,
     userId: 0,
+    id: 0,
+    title: "",
+    body: "",
+  });
+
+  const [validation, setValidation] = React.useState({
+    userId: false,
+    id: false,
     title: "",
     body: "",
   });
@@ -54,23 +61,38 @@ export default function BasicTextFields() {
       ...formData,
       [name]: value,
     });
+    // console.log(formData);
+  };
+
+  const checkValidation = () => {
+    const errors = { ...validation };
+
+    errors.userId =
+      !formData.userId || !formData.userId.trim() ? "user Id is required" : "";
+
+    errors.id = !formData.id ? "id is required" : "";
+
+    errors.title = !formData.title.trim() ? "title is required" : "";
+
+    setValidation(errors);
   };
 
   const submitHandler = (e) => {
     e.preventDefault();
     console.log("Button clicked");
 
+    checkValidation();
+
     axios
       .post("https://jsonplaceholder.typicode.com/posts", {
-        id: formData.id,
         userId: formData.userId,
+        id: formData.id,
         title: formData.title,
         body: formData.body,
       })
       .then((response) => console.log("Post created:", response.data))
       .catch((err) => console.error("Error creating post:", err));
   };
-
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -85,17 +107,20 @@ export default function BasicTextFields() {
         <div>
           <TextField
             fullWidth
-            helperText="Please enter your Title"
+            helperText={
+              validation.title ? "Title is required" : "Please enter your title"
+            }
             id="outlined-basic"
             label="Title"
             name="title"
             value={formData.title}
             onChange={handleChange}
+            required
           />
         </div>
         <div>
           <TextField
-            helperText="Please enter your description"
+            helperText={validation.body ? "" : "Please enter your description"}
             id="outlined-start-adornment"
             label="description"
             fullWidth
@@ -111,7 +136,9 @@ export default function BasicTextFields() {
         </div>
         <div>
           <TextField
-            helperText="Please enter your Id"
+            helperText={
+              validation.id ? "Id is required" : "Please enter your Id"
+            }
             id="demo-helper-text-misaligned"
             label="Id"
             fullWidth
@@ -119,9 +146,27 @@ export default function BasicTextFields() {
             InputLabelProps={{
               shrink: true,
             }}
+            name="id"
+            value={formData.id}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <TextField
+            helperText={
+              validation.userId
+                ? "userId is required"
+                : "Please enter your user Id"
+            }
+            id="demo-helper-txt-misaligned"
+            label="userId"
+            fullWidth
+            type="number"
             name="userId"
             value={formData.userId}
             onChange={handleChange}
+            required
           />
         </div>
 

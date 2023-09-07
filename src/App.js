@@ -7,6 +7,7 @@ function App() {
     <div className="app">
       <>
         <Link to="/"> Table </Link>
+        <br />
         <Link to="/form"> Form </Link>
         <Routes>
           <Route path="/" element={<Table />} />
