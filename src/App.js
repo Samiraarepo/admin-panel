@@ -1,6 +1,7 @@
 import { Routes, Route, Link } from "react-router-dom";
 import Table from "./components/Table";
-import Form from "./components/employeeForm";
+import Form from "./components/EmployeeInfo";
+import ErrorPage from "./components/ErrorPage";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Table />} />
           <Route path="/form" element={<Form />} />
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
       </>
     </div>

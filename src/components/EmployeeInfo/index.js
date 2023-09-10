@@ -86,12 +86,17 @@ export default function BasicTextFields() {
     axios
       .post("https://jsonplaceholder.typicode.com/posts", {
         userId: formData.userId,
-        id: formData.id,
         title: formData.title,
         body: formData.body,
       })
-      .then((response) => console.log("Post created:", response.data))
-      .catch((err) => console.error("Error creating post:", err));
+      .then((response) =>
+        alert(
+          `Post with ${JSON.stringify(
+            response.data.userId
+          )}'s userId created...`
+        )
+      )
+      .catch((err) => alert(`Error creating post: ${JSON.stringify(err)}`));
   };
   return (
     <ThemeProvider theme={theme}>
@@ -134,7 +139,7 @@ export default function BasicTextFields() {
             onChange={handleChange}
           />
         </div>
-        <div>
+        {/* <div>
           <TextField
             helperText={
               validation.id ? "Id is required" : "Please enter your Id"
@@ -150,8 +155,9 @@ export default function BasicTextFields() {
             value={formData.id}
             onChange={handleChange}
             required
+            // error
           />
-        </div>
+        </div> */}
         <div>
           <TextField
             helperText={
