@@ -3,11 +3,13 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 
 import InputAdornment from "@mui/material/InputAdornment";
-import { createTheme, ThemeProvider } from "@mui/material";
+import { CircularProgress, createTheme, ThemeProvider } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import axios from "axios";
+import Snackbar from "@mui/material/Snackbar";
+import Slide from "@mui/material/Slide";
 
 const theme = createTheme({
   typography: {
@@ -39,6 +41,9 @@ const CustomButton = styled(Button)({
   },
 });
 
+function TransitionLeft(props) {
+  return <Slide {...props} direction="left" />;
+}
 export default function BasicTextFields() {
   const [formData, setFormData] = React.useState({
     userId: 0,
@@ -54,6 +59,18 @@ export default function BasicTextFields() {
     body: "",
   });
 
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+  const [snackbarMessage, setSnackbarMessage] = React.useState("");
+
+  const [transition, setTransition] = React.useState(undefined);
+
+  const handleClick = (Transition) => () => {
+    setTransition(() => Transition);
+    setSnackbarOpen(true);
+  };
+
   /*update state*/
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -64,6 +81,10 @@ export default function BasicTextFields() {
     // console.log(formData);
   };
 
+  const showSnackbar = (message) => {
+    setSnackbarMessage(message);
+    setSnackbarOpen(true);
+  };
   const checkValidation = () => {
     const errors = { ...validation };
 
@@ -82,21 +103,30 @@ export default function BasicTextFields() {
     console.log("Button clicked");
 
     checkValidation();
-
+    setIsLoading(true);
     axios
       .post("https://jsonplaceholder.typicode.com/posts", {
         userId: formData.userId,
         title: formData.title,
         body: formData.body,
       })
-      .then((response) =>
-        alert(
+      .then((response) => {
+        console.log("Post created:", response.data);
+        showSnackbar(
           `Post with ${JSON.stringify(
             response.data.userId
           )}'s userId created...`
-        )
-      )
-      .catch((err) => alert(`Error creating post: ${JSON.stringify(err)}`));
+        );
+      })
+
+      .catch((err) => {
+        console.error("Error creating post:", err);
+        showSnackbar(`Error creating post: ${JSON.stringify(err)}`);
+      })
+      .finally(() => {
+        setIsLoading(false);
+        console.log(isLoading);
+      });
   };
   return (
     <ThemeProvider theme={theme}>
@@ -104,6 +134,7 @@ export default function BasicTextFields() {
         component="form"
         sx={{
           "& > :not(style)": { width: "35rem", m: 4 },
+          justifyContent: "center",
         }}
         noValidate
         onSubmit={submitHandler}
@@ -139,25 +170,7 @@ export default function BasicTextFields() {
             onChange={handleChange}
           />
         </div>
-        {/* <div>
-          <TextField
-            helperText={
-              validation.id ? "Id is required" : "Please enter your Id"
-            }
-            id="demo-helper-text-misaligned"
-            label="Id"
-            fullWidth
-            type="number"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            name="id"
-            value={formData.id}
-            onChange={handleChange}
-            required
-            // error
-          />
-        </div> */}
+
         <div>
           <TextField
             helperText={
@@ -177,10 +190,26 @@ export default function BasicTextFields() {
         </div>
 
         <Stack spacing={2} direction="row">
-          <CustomButton type="submit" variant="outlined">
-            Create Employee
-          </CustomButton>
+          {isLoading ? (
+            <CircularProgress size={24}></CircularProgress>
+          ) : (
+            <CustomButton
+              type="submit"
+              variant="outlined"
+              onClick={handleClick(TransitionLeft)}
+            >
+              Create Employee
+            </CustomButton>
+          )}
         </Stack>
+        <Snackbar
+          TransitionComponent={transition}
+          key={transition ? transition.name : ""}
+          open={snackbarOpen}
+          autoHideDuration={5000}
+          onClose={() => setSnackbarOpen(false)}
+          message={snackbarMessage}
+        ></Snackbar>
       </Box>
     </ThemeProvider>
   );

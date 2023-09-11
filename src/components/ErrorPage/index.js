@@ -3,7 +3,8 @@ import { Box, Button, Typography } from "@mui/material";
 import { purple } from "@mui/material/colors";
 import { Link } from "react-router-dom";
 
-const primary = purple[500]; // #f44336
+const primary = purple[800];
+
 export default function Error() {
   return (
     <Box
@@ -23,7 +24,9 @@ export default function Error() {
         The page you’re looking for doesn’t exist.
       </Typography>
       <Link to="/">
-        <Button variant="contained">Back Home</Button>
+        <Button sx={{ mt: 2 }} variant="contained">
+          Back Home
+        </Button>
       </Link>
     </Box>
   );
