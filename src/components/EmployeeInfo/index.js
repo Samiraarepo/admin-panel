@@ -52,7 +52,7 @@ export default function BasicTextFields() {
     body: "",
   });
 
-  const [validation, setValidation] = React.useState({
+  const [formErrors, setFormErrors] = React.useState({
     userId: false,
     id: false,
     title: "",
@@ -68,9 +68,7 @@ export default function BasicTextFields() {
 
   const handleClick = (Transition) => () => {
     setTransition(() => Transition);
-    setSnackbarOpen(true);
   };
-
   /*update state*/
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -78,32 +76,52 @@ export default function BasicTextFields() {
       ...formData,
       [name]: value,
     });
-    // console.log(formData);
+    const validationResult = validateField(name, value);
+    setFormErrors({
+      ...formErrors,
+      [name]: validationResult,
+    });
   };
 
   const showSnackbar = (message) => {
     setSnackbarMessage(message);
     setSnackbarOpen(true);
   };
+  //VALIDATION
   const checkValidation = () => {
-    const errors = { ...validation };
+    const errors = { ...formErrors };
 
     errors.userId =
       !formData.userId || !formData.userId.trim() ? "user Id is required" : "";
 
-    errors.id = !formData.id ? "id is required" : "";
+    // errors.id = !formData.id ? "id is required" : "";
 
     errors.title = !formData.title.trim() ? "title is required" : "";
 
-    setValidation(errors);
+    setFormErrors(errors);
   };
-
+  const validateField = (name, value) => {
+    switch (name) {
+      case "userId":
+        checkValidation(value);
+        break;
+      case "title":
+        checkValidation(value);
+        break;
+      case "body":
+        checkValidation(value);
+        break;
+      default:
+        return true;
+    }
+  };
   const submitHandler = (e) => {
     e.preventDefault();
     console.log("Button clicked");
 
     checkValidation();
     setIsLoading(true);
+
     axios
       .post("https://jsonplaceholder.typicode.com/posts", {
         userId: formData.userId,
@@ -144,8 +162,9 @@ export default function BasicTextFields() {
           <TextField
             fullWidth
             helperText={
-              validation.title ? "Title is required" : "Please enter your title"
+              formErrors.title ? formErrors.title : "Please enter your title"
             }
+            error={Boolean(formErrors.title)}
             id="outlined-basic"
             label="Title"
             name="title"
@@ -156,7 +175,7 @@ export default function BasicTextFields() {
         </div>
         <div>
           <TextField
-            helperText={validation.body ? "" : "Please enter your description"}
+            helperText={formErrors.body ? "" : "Please enter your description"}
             id="outlined-start-adornment"
             label="description"
             fullWidth
@@ -174,10 +193,9 @@ export default function BasicTextFields() {
         <div>
           <TextField
             helperText={
-              validation.userId
-                ? "userId is required"
-                : "Please enter your user Id"
+              formErrors.userId ? formErrors.userId : "Please enter your title"
             }
+            error={Boolean(formErrors.userId)}
             id="demo-helper-txt-misaligned"
             label="userId"
             fullWidth
@@ -191,7 +209,7 @@ export default function BasicTextFields() {
 
         <Stack spacing={2} direction="row">
           {isLoading ? (
-            <CircularProgress size={24}></CircularProgress>
+            <CircularProgress size={34}></CircularProgress>
           ) : (
             <CustomButton
               type="submit"
