@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-  Switch,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Table from "./components/Table";
 import Form from "./components/EmployeeInfo";
 import ErrorPage from "./components/ErrorPage";
@@ -13,11 +7,21 @@ import EditEmployee from "./components/EditEmployee";
 import axios from "axios";
 
 function App() {
-  const [employees, setEmployees] = useState([]);
+  const [employees, setEmployees] = useState({
+    id: 0,
+    name: "",
+    age: "0",
+    department: "",
+  });
 
   useEffect(() => {
     axios
-      .get("./MockData/sample.json")
+      .get("./sample.json", {
+        userId: employees.id,
+        name: employees.name,
+        age: employees.age,
+        department: employees.department,
+      })
       .then((response) => setEmployees(response.data));
   }, []);
 
@@ -44,23 +48,25 @@ function App() {
         <Link to="/form"> Form </Link>
         <br />
         <Link to="/employee"> Employees </Link>
-        <Router>
-          <Switch>
-            <Route path="/edit/:id">
+
+        <Routes>
+          <Route path="/" element={<Table />} />
+          <Route path="/form" element={<Form />} />
+          <Route
+            path="/employee/:id"
+            render={(props) => (
               <EditEmployee
                 employees={employees}
                 onUpdateEmployee={onUpdateEmployee}
+                {...props}
               />
-            </Route>
-            {/* Other routes */}
-            <Routes>
-              <Route path="/" element={<Table />} />
-              <Route path="/form" element={<Form />} />
-              <Route path="*" element={<ErrorPage />} />
-              <Route path="/employee" element={<EditEmployee />} />
-            </Routes>
-          </Switch>
-        </Router>
+            )}
+          />
+
+          <Route path="/employee" element={<EditEmployee />} />
+          <Route path="*" element={<ErrorPage />} />
+          {/* Other routes */}
+        </Routes>
       </>
     </div>
   );

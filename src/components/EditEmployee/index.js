@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 
-import InputAdornment from "@mui/material/InputAdornment";
 import { CircularProgress, createTheme, ThemeProvider } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
@@ -44,12 +43,12 @@ const CustomButton = styled(Button)({
 function TransitionLeft(props) {
   return <Slide {...props} direction="left" />;
 }
-function EditEmployee({ onUpdateEmployee }) {
+function EditEmployee({ onUpdateEmployee, employees }) {
   const { id } = useParams();
   const [formData, setFormData] = React.useState({
     id: 0,
     name: "",
-    age: "",
+    age: "0",
     department: "",
   });
 
@@ -65,8 +64,7 @@ function EditEmployee({ onUpdateEmployee }) {
   const [transition, setTransition] = React.useState(undefined);
 
   useEffect(() => {
-    // Fetch employee data based on the id parameter using Axios
-    axios.get(`../MockData/sample.json`).then((response) => {
+    axios.get(`./sample.json`).then((response) => {
       const employees = response.data;
       const employee = employees.find((emp) => emp.id === parseInt(id, 10));
 
@@ -79,8 +77,6 @@ function EditEmployee({ onUpdateEmployee }) {
         });
       } else {
         showSnackbar(`Employee with ${id} not defined!!`);
-        // Handle the case where the employee with the given ID doesn't exist
-        // You can show an error message or redirect the user, for example.
       }
     });
   }, [id]);
@@ -171,11 +167,6 @@ function EditEmployee({ onUpdateEmployee }) {
             id="outlined-start-adornment"
             label="department"
             fullWidth
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">🤞</InputAdornment>
-              ),
-            }}
             name="department"
             value={formData.department}
             onChange={handleChange}

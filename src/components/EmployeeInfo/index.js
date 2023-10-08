@@ -2,7 +2,6 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 
-import InputAdornment from "@mui/material/InputAdornment";
 import { CircularProgress, createTheme, ThemeProvider } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
@@ -46,17 +45,17 @@ function TransitionLeft(props) {
 }
 export default function BasicTextFields() {
   const [formData, setFormData] = React.useState({
-    userId: 0,
     id: 0,
-    title: "",
-    body: "",
+    name: "",
+    age: 0,
+    department: "",
   });
 
   const [formErrors, setFormErrors] = React.useState({
-    userId: false,
-    id: false,
-    title: "",
-    body: "",
+    id: 0,
+    name: "",
+    age: 0,
+    department: "",
   });
 
   const [isLoading, setIsLoading] = React.useState(false);
@@ -123,10 +122,11 @@ export default function BasicTextFields() {
     setIsLoading(true);
 
     axios
-      .post("https://jsonplaceholder.typicode.com/posts", {
-        userId: formData.userId,
-        title: formData.title,
-        body: formData.body,
+      .post("./sample.json", {
+        userId: formData.id,
+        name: formData.name,
+        age: formData.age,
+        department: formData.department,
       })
       .then((response) => {
         console.log("Post created:", response.data);
@@ -161,47 +161,54 @@ export default function BasicTextFields() {
         <div>
           <TextField
             fullWidth
-            helperText={
-              formErrors.title ? formErrors.title : "Please enter your title"
-            }
-            error={Boolean(formErrors.title)}
+            helperText={formErrors.name ? "" : "Please enter your Name"}
+            error={Boolean(formErrors.name)}
             id="outlined-basic"
-            label="Title"
-            name="title"
-            value={formData.title}
+            label="Name"
+            name="name"
+            value={formData.name}
             onChange={handleChange}
             required
           />
         </div>
         <div>
           <TextField
-            helperText={formErrors.body ? "" : "Please enter your description"}
+            helperText={
+              formErrors.department ? "" : "Please enter your department"
+            }
             id="outlined-start-adornment"
-            label="description"
+            label="department"
             fullWidth
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">🤞</InputAdornment>
-              ),
-            }}
-            name="body"
-            value={formData.body}
+            name="department"
+            value={formData.department}
             onChange={handleChange}
           />
         </div>
 
         <div>
           <TextField
-            helperText={
-              formErrors.userId ? formErrors.userId : "Please enter your title"
-            }
-            error={Boolean(formErrors.userId)}
+            helperText={formErrors.id ? formErrors.id : "Please enter your ID"}
+            error={Boolean(formErrors.id)}
             id="demo-helper-txt-misaligned"
-            label="userId"
+            label="id"
             fullWidth
             type="number"
-            name="userId"
-            value={formData.userId}
+            name="id"
+            value={formData.id}
+            onChange={handleChange}
+            required
+          />
+          <TextField
+            helperText={
+              formErrors.age ? formErrors.age : "Please enter your age"
+            }
+            error={Boolean(formErrors.age)}
+            id="demo-helper-txt-misaligned"
+            label="age"
+            fullWidth
+            type="number"
+            name="age"
+            value={formData.age}
             onChange={handleChange}
             required
           />
