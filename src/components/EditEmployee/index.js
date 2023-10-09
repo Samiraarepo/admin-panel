@@ -100,8 +100,7 @@ function EditEmployee({ onUpdateEmployee, employees }) {
   const checkValidation = () => {
     const errors = { ...formErrors };
 
-    errors.id =
-      !formData.id || !formData.id.trim() ? "user Id is required" : "";
+    errors.id = !formData.id ? "user Id is required" : "";
     errors.name = !formData.name.trim() ? "name is required" : "";
 
     setFormErrors(errors);

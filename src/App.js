@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom"; //????????
 import Table from "./components/Table";
 import Form from "./components/EmployeeInfo";
 import ErrorPage from "./components/ErrorPage";
@@ -23,7 +23,7 @@ function App() {
         department: employees.department,
       })
       .then((response) => setEmployees(response.data));
-  }, []);
+  }, [employees.id, employees.name, employees.age, employees.department]);
 
   const onUpdateEmployee = (formData) => {
     // Find the index of the employee to update in the employees array
@@ -53,19 +53,18 @@ function App() {
           <Route path="/" element={<Table />} />
           <Route path="/form" element={<Form />} />
           <Route
-            path="/employee/:id"
-            render={(props) => (
+            path="/:id"
+            element={
               <EditEmployee
                 employees={employees}
                 onUpdateEmployee={onUpdateEmployee}
-                {...props}
               />
-            )}
+            }
           />
+          {/* the path shouldn't be like this /employee/:id*/}
 
           <Route path="/employee" element={<EditEmployee />} />
           <Route path="*" element={<ErrorPage />} />
-          {/* Other routes */}
         </Routes>
       </>
     </div>

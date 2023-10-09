@@ -68,6 +68,7 @@ export default function BasicTextFields() {
   const handleClick = (Transition) => () => {
     setTransition(() => Transition);
   };
+
   /*update state*/
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -75,10 +76,10 @@ export default function BasicTextFields() {
       ...formData,
       [name]: value,
     });
-    const validationResult = validateField(name, value);
+
     setFormErrors({
       ...formErrors,
-      [name]: validationResult,
+      [name]: validateField,
     });
   };
 
@@ -86,28 +87,27 @@ export default function BasicTextFields() {
     setSnackbarMessage(message);
     setSnackbarOpen(true);
   };
-  //VALIDATION
+
+  /*VALIDATION*/
   const checkValidation = () => {
     const errors = { ...formErrors };
-
-    errors.userId =
-      !formData.userId || !formData.userId.trim() ? "user Id is required" : "";
-
-    // errors.id = !formData.id ? "id is required" : "";
-
-    errors.title = !formData.title.trim() ? "title is required" : "";
+    errors.name = !formData.name.trim() ? "Name is required" : "";
+    errors.id = errors.id = !formData.id ? "id is required" : "";
 
     setFormErrors(errors);
   };
   const validateField = (name, value) => {
     switch (name) {
-      case "userId":
+      case "id":
         checkValidation(value);
         break;
-      case "title":
+      case "name":
         checkValidation(value);
         break;
-      case "body":
+      case "age":
+        checkValidation(value);
+        break;
+      case "department":
         checkValidation(value);
         break;
       default:
@@ -198,6 +198,8 @@ export default function BasicTextFields() {
             onChange={handleChange}
             required
           />
+        </div>
+        <div>
           <TextField
             helperText={
               formErrors.age ? formErrors.age : "Please enter your age"
