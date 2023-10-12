@@ -76,10 +76,10 @@ export default function BasicTextFields() {
       ...formData,
       [name]: value,
     });
-
+    const validationResult = validateField(name, value);
     setFormErrors({
       ...formErrors,
-      [name]: validateField,
+      [name]: validationResult,
     });
   };
 
@@ -92,7 +92,7 @@ export default function BasicTextFields() {
   const checkValidation = () => {
     const errors = { ...formErrors };
     errors.name = !formData.name.trim() ? "Name is required" : "";
-    errors.id = errors.id = !formData.id ? "id is required" : "";
+    errors.id = !formData.id ? "id is required" : "";
 
     setFormErrors(errors);
   };
@@ -122,8 +122,7 @@ export default function BasicTextFields() {
     setIsLoading(true);
 
     axios
-      .post("./sample.json", {
-        userId: formData.id,
+      .post("http://localhost:3005/user", {
         name: formData.name,
         age: formData.age,
         department: formData.department,
@@ -131,9 +130,7 @@ export default function BasicTextFields() {
       .then((response) => {
         console.log("Post created:", response.data);
         showSnackbar(
-          `Post with ${JSON.stringify(
-            response.data.userId
-          )}'s userId created...`
+          `Post with ${JSON.stringify(response.data.id)}'s userId created...`
         );
       })
 
@@ -145,7 +142,7 @@ export default function BasicTextFields() {
         setIsLoading(false);
         console.log(isLoading);
       });
-  };
+  }; //./sample.json
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -173,9 +170,7 @@ export default function BasicTextFields() {
         </div>
         <div>
           <TextField
-            helperText={
-              formErrors.department ? "" : "Please enter your department"
-            }
+            helperText={"Please enter your department"}
             id="outlined-start-adornment"
             label="department"
             fullWidth
@@ -187,7 +182,7 @@ export default function BasicTextFields() {
 
         <div>
           <TextField
-            helperText={formErrors.id ? formErrors.id : "Please enter your ID"}
+            helperText={"Please enter your ID"}
             error={Boolean(formErrors.id)}
             id="demo-helper-txt-misaligned"
             label="id"
@@ -201,9 +196,7 @@ export default function BasicTextFields() {
         </div>
         <div>
           <TextField
-            helperText={
-              formErrors.age ? formErrors.age : "Please enter your age"
-            }
+            helperText={"Please enter your age"}
             error={Boolean(formErrors.age)}
             id="demo-helper-txt-misaligned"
             label="age"

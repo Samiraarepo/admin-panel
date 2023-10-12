@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom"; //????????
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  useParams,
+} from "react-router-dom"; //????????
 import Table from "./components/Table";
 import Form from "./components/EmployeeInfo";
 import ErrorPage from "./components/ErrorPage";
@@ -7,23 +13,24 @@ import EditEmployee from "./components/EditEmployee";
 import axios from "axios";
 
 function App() {
-  const [employees, setEmployees] = useState({
-    id: 0,
-    name: "",
-    age: "0",
-    department: "",
-  });
+  const [employees, setEmployees] = useState([]);
+
+  // Use useParams to access the id parameter from the URL
+  const { id } = useParams();
 
   useEffect(() => {
-    axios
-      .get("./sample.json", {
-        userId: employees.id,
-        name: employees.name,
-        age: employees.age,
-        department: employees.department,
-      })
-      .then((response) => setEmployees(response.data));
-  }, [employees.id, employees.name, employees.age, employees.department]);
+    if (id) {
+      // Only make the GET request if id is defined (i.e., when visiting /user/:id route)
+      axios
+        .get(`http://localhost:3005/user/${id}`)
+        .then((response) => {
+          setEmployees(response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching employee data:", error);
+        });
+    }
+  }, [id]);
 
   const onUpdateEmployee = (formData) => {
     // Find the index of the employee to update in the employees array
@@ -53,7 +60,7 @@ function App() {
           <Route path="/" element={<Table />} />
           <Route path="/form" element={<Form />} />
           <Route
-            path="/:id"
+            path="/user/:id"
             element={
               <EditEmployee
                 employees={employees}
@@ -61,7 +68,7 @@ function App() {
               />
             }
           />
-          {/* the path shouldn't be like this /employee/:id*/}
+          {/* /:id-the path shouldn't be like this /employee/:id*/}
 
           <Route path="/employee" element={<EditEmployee />} />
           <Route path="*" element={<ErrorPage />} />

@@ -64,21 +64,25 @@ function EditEmployee({ onUpdateEmployee, employees }) {
   const [transition, setTransition] = React.useState(undefined);
 
   useEffect(() => {
-    axios.get(`./sample.json`).then((response) => {
-      const employees = response.data;
-      const employee = employees.find((emp) => emp.id === parseInt(id, 10));
+    axios
+      .get(`http://localhost:3005/user/${id}`)
+      .then((response) => {
+        const employee = response.data;
 
-      if (employee) {
-        setFormData({
-          id: employee.id,
-          name: employee.name,
-          age: employee.age,
-          department: employee.department,
-        });
-      } else {
-        showSnackbar(`Employee with ${id} not defined!!`);
-      }
-    });
+        if (employee) {
+          setFormData({
+            id: employee.id,
+            name: employee.name,
+            age: employee.age,
+            department: employee.department,
+          });
+        } else {
+          showSnackbar(`Employee with ${id} not defined!!`);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching employee data:", error);
+      });
   }, [id]);
 
   const handleChange = (e) => {
@@ -93,6 +97,7 @@ function EditEmployee({ onUpdateEmployee, employees }) {
       [name]: validationResult,
     });
   };
+
   const showSnackbar = (message) => {
     setSnackbarMessage(message);
     setSnackbarOpen(true);
@@ -148,7 +153,8 @@ function EditEmployee({ onUpdateEmployee, employees }) {
         <div>
           <TextField
             fullWidth
-            helperText={formErrors.name ? "" : "Please enter your Name"}
+            helperText={"Please enter your Name"}
+            // {formErrors.name ? "" : "Please enter your Name"}
             error={Boolean(formErrors.name)}
             id="outlined-basic"
             label="Name"
@@ -160,9 +166,7 @@ function EditEmployee({ onUpdateEmployee, employees }) {
         </div>
         <div>
           <TextField
-            helperText={
-              formErrors.department ? "" : "Please enter your department"
-            }
+            helperText={"Please enter your department"}
             id="outlined-start-adornment"
             label="department"
             fullWidth
@@ -174,7 +178,7 @@ function EditEmployee({ onUpdateEmployee, employees }) {
 
         <div>
           <TextField
-            helperText={formErrors.id ? formErrors.id : "Please enter your ID"}
+            helperText={"Please enter your ID"}
             error={Boolean(formErrors.id)}
             id="demo-helper-txt-misaligned"
             label="id"
@@ -185,10 +189,10 @@ function EditEmployee({ onUpdateEmployee, employees }) {
             onChange={handleChange}
             required
           />
+        </div>
+        <div>
           <TextField
-            helperText={
-              formErrors.age ? formErrors.age : "Please enter your age"
-            }
+            helperText={"Please enter your age"}
             error={Boolean(formErrors.age)}
             id="demo-helper-txt-misaligned"
             label="age"
