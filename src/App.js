@@ -12,6 +12,24 @@ import ErrorPage from "./components/ErrorPage";
 import EditEmployee from "./components/EditEmployee";
 import axios from "axios";
 
+import PropTypes from "prop-types";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
+import Divider from "@mui/material/Divider";
+import Drawer from "@mui/material/Drawer";
+import IconButton from "@mui/material/IconButton";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import MailIcon from "@mui/icons-material/Mail";
+import MenuIcon from "@mui/icons-material/Menu";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+
 function App() {
   const [employees, setEmployees] = useState([]);
 
@@ -27,7 +45,7 @@ function App() {
           setEmployees(response.data);
         })
         .catch((error) => {
-          console.error("Error fetching employee data:", error);
+          alert("Error fetching employee data:", error);
         });
     }
   }, [id]);
@@ -68,7 +86,7 @@ function App() {
               />
             }
           />
-          {/* /:id-the path shouldn't be like this /employee/:id*/}
+          {/* /:id the path shouldn't be like this /employee/:id */}
 
           <Route path="/employee" element={<EditEmployee />} />
           <Route path="*" element={<ErrorPage />} />

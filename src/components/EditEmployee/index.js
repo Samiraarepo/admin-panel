@@ -48,12 +48,12 @@ function EditEmployee({ onUpdateEmployee, employees }) {
   const [formData, setFormData] = React.useState({
     id: 0,
     name: "",
-    age: "0",
+    age: 0,
     department: "",
   });
 
   const [formErrors, setFormErrors] = React.useState({
-    id: false,
+    id: "",
     name: "",
     age: "",
     department: "",
@@ -102,23 +102,24 @@ function EditEmployee({ onUpdateEmployee, employees }) {
     setSnackbarMessage(message);
     setSnackbarOpen(true);
   };
-  const checkValidation = () => {
-    const errors = { ...formErrors };
+  /* Validation */
+  const checkValidation = (errors) => {
+    errors = { ...formErrors };
 
     errors.id = !formData.id ? "user Id is required" : "";
     errors.name = !formData.name.trim() ? "name is required" : "";
-
+    errors.age = !formData.age ? "Please enter your age" : "";
     setFormErrors(errors);
   };
   const validateField = (name, value) => {
     switch (name) {
-      case "userId":
+      case "id":
         checkValidation(value);
         break;
-      case "title":
+      case "name":
         checkValidation(value);
         break;
-      case "body":
+      case "age":
         checkValidation(value);
         break;
       default:
@@ -127,12 +128,10 @@ function EditEmployee({ onUpdateEmployee, employees }) {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    //Validation logic
     checkValidation();
     setIsLoading(true);
     // Update the employee in your JSON file or database
     onUpdateEmployee(formData);
-
     // Redirect the user or show a success message
   };
   const handleClick = (Transition) => () => {
@@ -153,8 +152,7 @@ function EditEmployee({ onUpdateEmployee, employees }) {
         <div>
           <TextField
             fullWidth
-            helperText={"Please enter your Name"}
-            // {formErrors.name ? "" : "Please enter your Name"}
+            helperText={formErrors.name ? "" : "Please enter your Name"}
             error={Boolean(formErrors.name)}
             id="outlined-basic"
             label="Name"
