@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { useMode, ColorModeContext } from "./theme";
+// import { ThemeProvider } from "@emotion/react";
+import { ThemeProvider, CssBaseline } from "@mui/material";
 import {
   BrowserRouter as Router,
   Routes,
@@ -6,33 +9,17 @@ import {
   Link,
   useParams,
 } from "react-router-dom"; //????????
+
+import Dashboard from "./layouts/dashboard";
 import Table from "./components/Table";
 import Form from "./components/EmployeeInfo";
 import ErrorPage from "./components/ErrorPage";
 import EditEmployee from "./components/EditEmployee";
 import axios from "axios";
 
-import PropTypes from "prop-types";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
-import Drawer from "@mui/material/Drawer";
-import IconButton from "@mui/material/IconButton";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import MailIcon from "@mui/icons-material/Mail";
-import MenuIcon from "@mui/icons-material/Menu";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-
 function App() {
   const [employees, setEmployees] = useState([]);
-
+  const [theme, colorMode] = useMode();
   // Use useParams to access the id parameter from the URL
   const { id } = useParams();
 
@@ -66,33 +53,41 @@ function App() {
     }
   };
   return (
-    <div className="app">
-      <>
-        <Link to="/"> Table </Link>
-        <br />
-        <Link to="/form"> Form </Link>
-        <br />
-        <Link to="/employee"> Employees </Link>
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <div className="app">
+          <>
+            <Link to="/table"> Table </Link>
+            <br />
+            <Link to="/form"> Form </Link>
+            <br />
+            <Link to="/employee"> Employees </Link>
+            <br />
+            <Link to="/"> Dashboard </Link>
 
-        <Routes>
-          <Route path="/" element={<Table />} />
-          <Route path="/form" element={<Form />} />
-          <Route
-            path="/user/:id"
-            element={
-              <EditEmployee
-                employees={employees}
-                onUpdateEmployee={onUpdateEmployee}
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/table" element={<Table />} />
+              <Route path="/form" element={<Form />} />
+              <Route
+                path="/user/:id"
+                element={
+                  <EditEmployee
+                    employees={employees}
+                    onUpdateEmployee={onUpdateEmployee}
+                  />
+                }
               />
-            }
-          />
-          {/* /:id the path shouldn't be like this /employee/:id */}
+              {/* /:id the path shouldn't be like this /employee/:id */}
 
-          <Route path="/employee" element={<EditEmployee />} />
-          <Route path="*" element={<ErrorPage />} />
-        </Routes>
-      </>
-    </div>
+              <Route path="/employee" element={<EditEmployee />} />
+              <Route path="*" element={<ErrorPage />} />
+            </Routes>
+          </>
+        </div>
+      </ThemeProvider>
+    </ColorModeContext.Provider>
   );
 }
 
