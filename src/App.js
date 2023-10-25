@@ -6,7 +6,6 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link,
   useParams,
 } from "react-router-dom"; //????????
 
@@ -16,6 +15,7 @@ import Form from "./components/EmployeeInfo";
 import ErrorPage from "./components/ErrorPage";
 import EditEmployee from "./components/EditEmployee";
 import axios from "axios";
+import Sidebar from "./layouts/global/Sidebar";
 
 function App() {
   const [employees, setEmployees] = useState([]);
@@ -58,32 +58,34 @@ function App() {
         <CssBaseline />
         <div className="app">
           <>
-            <Link to="/table"> Table </Link>
+            {/* <Link to="/table"> Table </Link>
             <br />
             <Link to="/form"> Form </Link>
             <br />
             <Link to="/employee"> Employees </Link>
             <br />
-            <Link to="/"> Dashboard </Link>
+            <Link to="/"> Dashboard </Link> */}
+            <Sidebar />
+            <main className="content">
+              <Routes>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/table" element={<Table />} />
+                <Route path="/form" element={<Form />} />
+                <Route
+                  path="/user/:id"
+                  element={
+                    <EditEmployee
+                      employees={employees}
+                      onUpdateEmployee={onUpdateEmployee}
+                    />
+                  }
+                />
+                {/* /:id the path shouldn't be like this /employee/:id */}
 
-            <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/table" element={<Table />} />
-              <Route path="/form" element={<Form />} />
-              <Route
-                path="/user/:id"
-                element={
-                  <EditEmployee
-                    employees={employees}
-                    onUpdateEmployee={onUpdateEmployee}
-                  />
-                }
-              />
-              {/* /:id the path shouldn't be like this /employee/:id */}
-
-              <Route path="/employee" element={<EditEmployee />} />
-              <Route path="*" element={<ErrorPage />} />
-            </Routes>
+                <Route path="/employee" element={<EditEmployee />} />
+                <Route path="*" element={<ErrorPage />} />
+              </Routes>
+            </main>
           </>
         </div>
       </ThemeProvider>
