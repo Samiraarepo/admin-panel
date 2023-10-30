@@ -10,7 +10,6 @@ body,
 #root,
 .App,
 .content {
-  font-size: 62.5%;
   height: 100%;
   width: 100%;
   font-family: "Source Sans 3", sans-serif;
@@ -22,6 +21,10 @@ body,
 .MuiTableBody-root .MuiTableRow-root .css-1ex1afd-MuiTableCell-root,
 .MuiTableHead-root .MuiTableRow-root .MuiTableCell-head {
   font-size: 1.6rem;
+}
+a {
+  text-decoration: none;
+  color: #fff;
 }
 
 /* ::-webkit-scrollbar {

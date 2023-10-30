@@ -1,122 +1,162 @@
 [
   {
     "id": 1,
-    "name": "John Doe",
-    "age": 30,
-    "department": "HR"
+    "name": "Dr. John Smith",
+    "specialty": "Cardiologist",
+    "location": "123 Main Street, Cityville, State",
+    "phone": "(555) 123-4567",
+    "email": "john.smith@example.com"
   },
   {
     "id": 2,
-    "name": "Jane Smith",
-    "age": 28,
-    "department": "Engineering"
+    "name": "Dr. Sarah Johnson",
+    "specialty": "Dermatologist",
+    "location": "456 Elm Avenue, Townsville, State",
+    "phone": "(555) 234-5678",
+    "email": "sarah.johnson@example.com"
   },
   {
     "id": 3,
-    "name": "Bob Johnson",
-    "age": 35,
-    "department": "Finance"
+    "name": "Dr. Michael Davis",
+    "specialty": "Pediatrician",
+    "location": "789 Oak Road, Villagetown, State",
+    "phone": "(555) 345-6789",
+    "email": "michael.davis@example.com"
   },
   {
     "id": 4,
-    "name": "Emily Davis",
-    "age": 25,
-    "department": "Marketing"
+    "name": "Dr. Lisa Patel",
+    "specialty": "Obstetrician",
+    "location": "101 Pine Lane, Hamletsville, State",
+    "phone": "(555) 456-7890",
+    "email": "lisa.patel@example.com"
   },
   {
     "id": 5,
-    "name": "Michael Wilson",
-    "age": 32,
-    "department": "Sales"
+    "name": "Dr. Mark Wilson",
+    "specialty": "Orthopedic Surgeon",
+    "location": "555 Oak Street, Villagetown, State",
+    "phone": "(555) 567-8901",
+    "email": "mark.wilson@example.com"
   },
   {
     "id": 6,
-    "name": "Amanda Lee",
-    "age": 29,
-    "department": "Engineering"
+    "name": "Dr. Emily Lewis",
+    "specialty": "Ophthalmologist",
+    "location": "777 Maple Avenue, Townsville, State",
+    "phone": "(555) 678-9012",
+    "email": "emily.lewis@example.com"
   },
   {
     "id": 7,
-    "name": "David Brown",
-    "age": 40,
-    "department": "Finance"
+    "name": "Dr. Robert Turner",
+    "specialty": "Neurologist",
+    "location": "222 Elm Street, Cityville, State",
+    "phone": "(555) 789-0123",
+    "email": "robert.turner@example.com"
   },
   {
     "id": 8,
-    "name": "Sarah Miller",
-    "age": 27,
-    "department": "Marketing"
+    "name": "Dr. Maria Rodriguez",
+    "specialty": "Gynecologist",
+    "location": "999 Pine Road, Hamletsville, State",
+    "phone": "(555) 890-1234",
+    "email": "maria.rodriguez@example.com"
   },
   {
     "id": 9,
-    "name": "Daniel Taylor",
-    "age": 31,
-    "department": "Sales"
+    "name": "Dr. James White",
+    "specialty": "General Practitioner",
+    "location": "444 Oak Lane, Villagetown, State",
+    "phone": "(555) 901-2345",
+    "email": "james.white@example.com"
   },
   {
     "id": 10,
-    "name": "Olivia Clark",
-    "age": 33,
-    "department": "HR"
+    "name": "Dr. Laura Clark",
+    "specialty": "Psychiatrist",
+    "location": "333 Maple Road, Cityville, State",
+    "phone": "(555) 012-3456",
+    "email": "laura.clark@example.com"
   },
   {
     "id": 11,
-    "name": "Liam Anderson",
-    "age": 26,
-    "department": "Engineering"
+    "name": "Dr. William Brown",
+    "specialty": "Dentist",
+    "location": "666 Elm Lane, Townsville, State",
+    "phone": "(555) 123-4567",
+    "email": "william.brown@example.com"
   },
   {
     "id": 12,
-    "name": "Sophia White",
-    "age": 29,
-    "department": "Finance"
+    "name": "Dr. Jennifer Adams",
+    "specialty": "Allergist",
+    "location": "777 Pine Avenue, Hamletsville, State",
+    "phone": "(555) 234-5678",
+    "email": "jennifer.adams@example.com"
   },
   {
     "id": 13,
-    "name": "James Garcia",
-    "age": 38,
-    "department": "Marketing"
+    "name": "Dr. Richard Evans",
+    "specialty": "Urologist",
+    "location": "555 Maple Lane, Cityville, State",
+    "phone": "(555) 345-6789",
+    "email": "richard.evans@example.com"
   },
   {
     "id": 14,
-    "name": "Ella Martinez",
-    "age": 24,
-    "department": "Sales"
+    "name": "Dr. Karen Baker",
+    "specialty": "Endocrinologist",
+    "location": "888 Oak Road, Villagetown, State",
+    "phone": "(555) 456-7890",
+    "email": "karen.baker@example.com"
   },
   {
     "id": 15,
-    "name": "William Hall",
-    "age": 36,
-    "department": "HR"
+    "name": "Dr. Daniel Wilson",
+    "specialty": "Pulmonologist",
+    "location": "111 Elm Street, Townsville, State",
+    "phone": "(555) 567-8901",
+    "email": "daniel.wilson@example.com"
   },
   {
     "id": 16,
-    "name": "Grace Hernandez",
-    "age": 30,
-    "department": "Engineering"
+    "name": "Dr. Linda Martinez",
+    "specialty": "Rheumatologist",
+    "location": "222 Pine Lane, Cityville, State",
+    "phone": "(555) 678-9012",
+    "email": "linda.martinez@example.com"
   },
   {
     "id": 17,
-    "name": "Benjamin Adams",
-    "age": 37,
-    "department": "Finance"
+    "name": "Dr. Thomas Anderson",
+    "specialty": "ENT Specialist",
+    "location": "333 Maple Avenue, Villagetown, State",
+    "phone": "(555) 789-0123",
+    "email": "thomas.anderson@example.com"
   },
   {
     "id": 18,
-    "name": "Chloe Turner",
-    "age": 29,
-    "department": "Marketing"
+    "name": "Dr. Jessica Hall",
+    "specialty": "Nephrologist",
+    "location": "444 Oak Road, Hamletsville, State",
+    "phone": "(555) 890-1234",
+    "email": "jessica.hall@example.com"
   },
   {
     "id": 19,
-    "name": "Henry Wilson",
-    "age": 34,
-    "department": "Sales"
+    "name": "Dr. Kevin Lee",
+    "specialty": "Gastroenterologist",
+    "location": "555 Elm Street, Townsville, State",
+    "phone": "(555) 901-2345",
+    "email": "kevin.lee@example.com"
   },
   {
     "id": 20,
-    "name": "Lily Lewis",
-    "age": 28,
-    "department": "HR"
+    "name": "Dr. Susan Taylor",
+    "specialty": "Oncologist",
+    "location": "666 Pine Lane, Cityville, State",
+    "phone": "(555) 012-3456",
+    "email": "susan.taylor@example.com"
   }
 ]

@@ -13,43 +13,41 @@ import Dashboard from "./layouts/dashboard";
 import Table from "./components/Table";
 import Form from "./components/EmployeeInfo";
 import ErrorPage from "./components/ErrorPage";
-import EditEmployee from "./components/EditEmployee";
+import EditDoctor from "./components/EditDoctor";
 import axios from "axios";
 import Sidebar from "./layouts/global/Sidebar";
 
 function App() {
-  const [employees, setEmployees] = useState([]);
+  const [doctors, setDoctors] = useState([]);
   const [theme, colorMode] = useMode();
   // Use useParams to access the id parameter from the URL
-  const { id } = useParams();
+  // const { id } = useParams();
 
   useEffect(() => {
-    if (id) {
-      // Only make the GET request if id is defined (i.e., when visiting /user/:id route)
-      axios
-        .get(`http://localhost:3005/user/${id}`)
-        .then((response) => {
-          setEmployees(response.data);
-        })
-        .catch((error) => {
-          alert("Error fetching employee data:", error);
-        });
-    }
-  }, [id]);
+    // Only make the GET request if id is defined (i.e., when visiting /user/:id route)
+    axios
+      .get(`./sample.json`)
+      .then((response) => {
+        setDoctors(response.data);
+      })
+      .catch((error) => {
+        alert("Error fetching doctor data:", error);
+      });
+  }, []);
 
-  const onUpdateEmployee = (formData) => {
-    // Find the index of the employee to update in the employees array
-    const employeeIndex = employees.findIndex((emp) => emp.id === formData.id);
+  const onUpdateDoctor = (formData) => {
+    // Find the index of the doctor to update in the doctors array
+    const doctorIndex = doctors.findIndex((emp) => emp.id === formData.id);
 
-    if (employeeIndex !== -1) {
-      // Create a copy of the employees array
-      const updatedEmployees = [...employees];
+    if (doctorIndex !== -1) {
+      // Create a copy of the doctors array
+      const updateDoctors = [...doctors];
 
-      // Update the employee with the new data
-      updatedEmployees[employeeIndex] = formData;
+      // Update the doctor with the new data
+      updateDoctors[doctorIndex] = formData;
 
       // Update the state with the new array
-      setEmployees(updatedEmployees);
+      setDoctors(updateDoctors);
     }
   };
   return (
@@ -62,7 +60,7 @@ function App() {
             <br />
             <Link to="/form"> Form </Link>
             <br />
-            <Link to="/employee"> Employees </Link>
+            <Link to="/doctor"> Employees </Link>
             <br />
             <Link to="/"> Dashboard </Link> */}
             <Sidebar />
@@ -72,17 +70,17 @@ function App() {
                 <Route path="/table" element={<Table />} />
                 <Route path="/form" element={<Form />} />
                 <Route
-                  path="/user/:id"
+                  path="/doctor/id"
                   element={
-                    <EditEmployee
-                      employees={employees}
-                      onUpdateEmployee={onUpdateEmployee}
+                    <EditDoctor
+                      doctors={doctors}
+                      onUpdateDoctor={onUpdateDoctor}
                     />
                   }
                 />
                 {/* /:id the path shouldn't be like this /employee/:id */}
 
-                <Route path="/employee" element={<EditEmployee />} />
+                <Route path="/doctor" element={<EditDoctor />} />
                 <Route path="*" element={<ErrorPage />} />
               </Routes>
             </main>

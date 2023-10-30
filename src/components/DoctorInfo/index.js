@@ -1,6 +1,4 @@
-import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
-
+import * as React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 
@@ -17,6 +15,7 @@ const theme = createTheme({
     fontSize: 22,
   },
 });
+
 const CustomButton = styled(Button)({
   boxShadow: "none",
   textTransform: "none",
@@ -40,51 +39,41 @@ const CustomButton = styled(Button)({
     boxShadow: "0 0 0 0.2rem rgba(0,123,255,.5)",
   },
 });
+
 function TransitionLeft(props) {
   return <Slide {...props} direction="left" />;
 }
-function EditEmployee({ onUpdateEmployee, employees }) {
-  const { id } = useParams();
+export default function BasicTextFields() {
   const [formData, setFormData] = React.useState({
     id: 0,
     name: "",
-    age: 0,
-    department: "",
+    specialty: "",
+    location: "",
+    phone: "",
+    email: "",
   });
 
   const [formErrors, setFormErrors] = React.useState({
     id: "",
     name: "",
-    age: "",
-    department: "",
+    specialty: "",
+    location: "",
+    phone: "",
+    email: "",
   });
+
   const [isLoading, setIsLoading] = React.useState(false);
+
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
   const [snackbarMessage, setSnackbarMessage] = React.useState("");
+
   const [transition, setTransition] = React.useState(undefined);
 
-  useEffect(() => {
-    axios
-      .get(`http://localhost:3005/user/${id}`)
-      .then((response) => {
-        const employee = response.data;
+  const handleClick = (Transition) => () => {
+    setTransition(() => Transition);
+  };
 
-        if (employee) {
-          setFormData({
-            id: employee.id,
-            name: employee.name,
-            age: employee.age,
-            department: employee.department,
-          });
-        } else {
-          showSnackbar(`Employee with ${id} not defined!!`);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching employee data:", error);
-      });
-  }, [id]);
-
+  /*update state*/
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -102,13 +91,13 @@ function EditEmployee({ onUpdateEmployee, employees }) {
     setSnackbarMessage(message);
     setSnackbarOpen(true);
   };
-  /* Validation */
-  const checkValidation = (errors) => {
-    errors = { ...formErrors };
 
-    errors.id = !formData.id ? "user Id is required" : "";
-    errors.name = !formData.name.trim() ? "name is required" : "";
-    errors.age = !formData.age ? "Please enter your age" : "";
+  /*VALIDATION*/
+  const checkValidation = () => {
+    const errors = { ...formErrors };
+    errors.name = !formData.name.trim() ? "Name is required" : "";
+    errors.id = !formData.id ? "id is required" : "";
+
     setFormErrors(errors);
   };
   const validateField = (name, value) => {
@@ -119,24 +108,45 @@ function EditEmployee({ onUpdateEmployee, employees }) {
       case "name":
         checkValidation(value);
         break;
-      case "age":
+      case "speciality":
+        checkValidation(value);
+        break;
+      case "location":
         checkValidation(value);
         break;
       default:
         return true;
     }
   };
-  const handleSubmit = (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
+    console.log("Button clicked");
+
     checkValidation();
     setIsLoading(true);
-    // Update the employee in your JSON file or database
-    onUpdateEmployee(formData);
-    // Redirect the user or show a success message
-  };
-  const handleClick = (Transition) => () => {
-    setTransition(() => Transition);
-  };
+
+    axios
+      .post("./sample.json", {
+        name: formData.name,
+        specialty: formData.specialty,
+        location: formData.location,
+      })
+      .then((response) => {
+        console.log("Post created:", response.data);
+        showSnackbar(
+          `Post with ${JSON.stringify(response.data.id)}'s userId created...`
+        );
+      })
+
+      .catch((err) => {
+        console.error("Error creating post:", err);
+        showSnackbar(`Error creating post: ${JSON.stringify(err)}`);
+      })
+      .finally(() => {
+        setIsLoading(false);
+        console.log(isLoading);
+      });
+  }; //http://localhost:3005/user
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -146,7 +156,7 @@ function EditEmployee({ onUpdateEmployee, employees }) {
           justifyContent: "center",
         }}
         noValidate
-        onSubmit={handleSubmit}
+        onSubmit={submitHandler}
         autoComplete="off"
       >
         <div>
@@ -164,12 +174,12 @@ function EditEmployee({ onUpdateEmployee, employees }) {
         </div>
         <div>
           <TextField
-            helperText={"Please enter your department"}
+            helperText={"Please enter your location"}
             id="outlined-start-adornment"
-            label="department"
+            label="location"
             fullWidth
-            name="department"
-            value={formData.department}
+            name="location"
+            value={formData.location}
             onChange={handleChange}
           />
         </div>
@@ -190,14 +200,13 @@ function EditEmployee({ onUpdateEmployee, employees }) {
         </div>
         <div>
           <TextField
-            helperText={"Please enter your age"}
-            error={Boolean(formErrors.age)}
+            helperText={"Please enter your specialty"}
+            error={Boolean(formErrors.specialty)}
             id="demo-helper-txt-misaligned"
-            label="age"
+            label="specialty"
             fullWidth
-            type="number"
-            name="age"
-            value={formData.age}
+            name="specialty"
+            value={formData.specialty}
             onChange={handleChange}
             required
           />
@@ -212,7 +221,7 @@ function EditEmployee({ onUpdateEmployee, employees }) {
               variant="outlined"
               onClick={handleClick(TransitionLeft)}
             >
-              Edit Employee
+              Create Doctor
             </CustomButton>
           )}
         </Stack>
@@ -228,5 +237,3 @@ function EditEmployee({ onUpdateEmployee, employees }) {
     </ThemeProvider>
   );
 }
-
-export default EditEmployee;

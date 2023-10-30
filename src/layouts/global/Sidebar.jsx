@@ -73,7 +73,7 @@ const SidebarMenu = () => {
                   alignItems="center"
                   ml="10px"
                 >
-                  <img
+                  {/* <img
                     alt="profile-user"
                     width="100px"
                     height="100px"
@@ -82,7 +82,7 @@ const SidebarMenu = () => {
                       cursor: "pointer",
                       borderRadius: "50%",
                     }}
-                  />
+                  /> */}
                   <Typography variant="h5" color={colors.grey[100]}>
                     My Admin Panel
                   </Typography>
@@ -135,7 +135,7 @@ const SidebarMenu = () => {
 
               <Item
                 title="Employees"
-                to="/employee"
+                to="/doctor"
                 icon={<PeopleOutlinedIcon />}
                 selected={selected}
                 setSelected={setSelected}

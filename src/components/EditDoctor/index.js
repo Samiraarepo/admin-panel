@@ -1,8 +1,9 @@
-import * as React from "react";
+import React, { useEffect } from "react";
+// import { useParams } from "react-router-dom";
+
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-
-import { CircularProgress, createTheme, ThemeProvider } from "@mui/material";
+import { CircularProgress, useTheme, ThemeProvider } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
@@ -10,16 +11,10 @@ import axios from "axios";
 import Snackbar from "@mui/material/Snackbar";
 import Slide from "@mui/material/Slide";
 
-const theme = createTheme({
-  typography: {
-    fontSize: 22,
-  },
-});
-
 const CustomButton = styled(Button)({
   boxShadow: "none",
   textTransform: "none",
-  fontSize: 16,
+  fontSize: 14,
   padding: "6px 12px",
   border: "1px solid",
   lineHeight: 1.5,
@@ -39,37 +34,56 @@ const CustomButton = styled(Button)({
     boxShadow: "0 0 0 0.2rem rgba(0,123,255,.5)",
   },
 });
-
 function TransitionLeft(props) {
   return <Slide {...props} direction="left" />;
 }
-export default function BasicTextFields() {
+function EditDoctor({ onUpdateDoctor, doctors }) {
+  const theme = useTheme();
+  // const { id } = useParams();
   const [formData, setFormData] = React.useState({
-    id: 0,
+    id: "",
     name: "",
-    age: 0,
-    department: "",
+    specialty: "",
+    location: "",
+    phone: "",
+    email: "",
   });
 
   const [formErrors, setFormErrors] = React.useState({
-    id: 0,
+    id: "",
     name: "",
-    age: 0,
-    department: "",
+    specialty: "",
+    location: "",
+    phone: "",
+    email: "",
   });
-
   const [isLoading, setIsLoading] = React.useState(false);
-
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
   const [snackbarMessage, setSnackbarMessage] = React.useState("");
-
   const [transition, setTransition] = React.useState(undefined);
 
-  const handleClick = (Transition) => () => {
-    setTransition(() => Transition);
-  };
+  useEffect(() => {
+    axios
+      .get("./sample.json")
+      .then((response) => {
+        const doctor = response.data;
 
-  /*update state*/
+        if (doctor) {
+          setFormData({
+            id: doctor.id,
+            name: doctor.name,
+            specialty: doctor.specialty,
+            location: doctor.location,
+          });
+        } else {
+          showSnackbar(`Employee not defined!!`);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching employee data:", error);
+      });
+  }, []); //http://localhost:3005/user/${id}
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -87,13 +101,13 @@ export default function BasicTextFields() {
     setSnackbarMessage(message);
     setSnackbarOpen(true);
   };
+  /* Validation */
+  const checkValidation = (errors) => {
+    errors = { ...formErrors };
 
-  /*VALIDATION*/
-  const checkValidation = () => {
-    const errors = { ...formErrors };
-    errors.name = !formData.name.trim() ? "Name is required" : "";
-    errors.id = !formData.id ? "id is required" : "";
-
+    errors.id = !formData.id ? "user Id is required" : "";
+    errors.name = !formData.name.trim() ? "name is required" : "";
+    errors.specialty = !formData.specialty ? "Please enter your specialty" : "";
     setFormErrors(errors);
   };
   const validateField = (name, value) => {
@@ -104,60 +118,38 @@ export default function BasicTextFields() {
       case "name":
         checkValidation(value);
         break;
-      case "age":
-        checkValidation(value);
-        break;
-      case "department":
+      case "specialty":
         checkValidation(value);
         break;
       default:
         return true;
     }
   };
-  const submitHandler = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Button clicked");
-
     checkValidation();
     setIsLoading(true);
-
-    axios
-      .post("http://localhost:3005/user", {
-        name: formData.name,
-        age: formData.age,
-        department: formData.department,
-      })
-      .then((response) => {
-        console.log("Post created:", response.data);
-        showSnackbar(
-          `Post with ${JSON.stringify(response.data.id)}'s userId created...`
-        );
-      })
-
-      .catch((err) => {
-        console.error("Error creating post:", err);
-        showSnackbar(`Error creating post: ${JSON.stringify(err)}`);
-      })
-      .finally(() => {
-        setIsLoading(false);
-        console.log(isLoading);
-      });
-  }; //./sample.json
+    // Update the employee in your JSON file or database
+    onUpdateDoctor(formData);
+    // Redirect the user or show a success message
+  };
+  const handleClick = (Transition) => () => {
+    setTransition(() => Transition);
+  };
   return (
     <ThemeProvider theme={theme}>
       <Box
         component="form"
         sx={{
-          "& > :not(style)": { width: "35rem", m: 4 },
+          "& > :not(style)": { m: 4 },
           justifyContent: "center",
         }}
         noValidate
-        onSubmit={submitHandler}
+        onSubmit={handleSubmit}
         autoComplete="off"
       >
         <div>
           <TextField
-            fullWidth
             helperText={formErrors.name ? "" : "Please enter your Name"}
             error={Boolean(formErrors.name)}
             id="outlined-basic"
@@ -165,18 +157,19 @@ export default function BasicTextFields() {
             name="name"
             value={formData.name}
             onChange={handleChange}
+            fullWidth
             required
           />
         </div>
         <div>
           <TextField
-            helperText={"Please enter your department"}
+            helperText={"Please enter your location"}
             id="outlined-start-adornment"
-            label="department"
-            fullWidth
-            name="department"
-            value={formData.department}
+            label="location"
+            name="location"
+            value={formData.location}
             onChange={handleChange}
+            fullWidth
           />
         </div>
 
@@ -186,26 +179,24 @@ export default function BasicTextFields() {
             error={Boolean(formErrors.id)}
             id="demo-helper-txt-misaligned"
             label="id"
-            fullWidth
-            type="number"
             name="id"
             value={formData.id}
             onChange={handleChange}
             required
+            fullWidth
           />
         </div>
         <div>
           <TextField
-            helperText={"Please enter your age"}
-            error={Boolean(formErrors.age)}
+            helperText={"Please enter your specialty"}
+            error={Boolean(formErrors.specialty)}
             id="demo-helper-txt-misaligned"
-            label="age"
-            fullWidth
-            type="number"
-            name="age"
-            value={formData.age}
+            label="specialty"
+            name="specialty"
+            value={formData.specialty}
             onChange={handleChange}
             required
+            fullWidth
           />
         </div>
 
@@ -218,7 +209,7 @@ export default function BasicTextFields() {
               variant="outlined"
               onClick={handleClick(TransitionLeft)}
             >
-              Create Employee
+              Edit Doctor
             </CustomButton>
           )}
         </Stack>
@@ -234,3 +225,5 @@ export default function BasicTextFields() {
     </ThemeProvider>
   );
 }
+
+export default EditDoctor;

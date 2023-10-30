@@ -11,23 +11,25 @@ import Paper from "@mui/material/Paper";
 
 import TableSortLabel from "@mui/material/TableSortLabel";
 
-export default function EmployeeTable() {
-  const [employees, setEmployees] = useState([
+export default function DoctorTable() {
+  const [doctors, setDoctors] = useState([
     {
       id: 0,
       name: "",
-      age: 0,
-      department: "",
+      specialty: "",
+      location: "",
+      phone: 0,
+      email: "",
     },
   ]);
-  const [orderBy, setOrderBy] = useState("employee_name");
+  const [orderBy, setOrderBy] = useState("doctor_name");
   const [order, setOrder] = useState("asc");
 
   useEffect(() => {
     axios
       .get("./sample.json")
       .then((response) => {
-        setEmployees(response.data);
+        setDoctors(response.data);
         console.log(response.data);
       })
       .catch((error) => {
@@ -41,65 +43,65 @@ export default function EmployeeTable() {
     setOrderBy(property);
   };
   //?!
-  const sortedEmployees = employees.slice().sort((a, b) => {
+  const sortedDoctors = doctors.slice().sort((a, b) => {
     const orderMultiplier = order === "asc" ? 1 : -1;
-    if (orderBy === "employee_ID") {
+    if (orderBy === "doctor_ID") {
       return orderMultiplier * (a.id - b.id);
-    } else if (orderBy === "employee_name") {
+    } else if (orderBy === "doctor_name") {
       return orderMultiplier * a.name.localeCompare(b.name);
-    } else if (orderBy === "employee_age") {
-      return orderMultiplier * (a.age - b.age);
+    } else if (orderBy === "doctor_specialty") {
+      return orderMultiplier * a.name.localeCompare(b.name);
     }
     return 0;
   });
 
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table sx={{}} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell align="left">
               <TableSortLabel
-                active={orderBy === "employee_ID"}
-                direction={orderBy === "employee_ID" ? order : "asc"}
-                onClick={() => handleSortRequest("employee_ID")}
+                active={orderBy === "doctor_ID"}
+                direction={orderBy === "doctor_ID" ? order : "asc"}
+                onClick={() => handleSortRequest("doctor_ID")}
               >
                 ID
               </TableSortLabel>
             </TableCell>
             <TableCell align="left">
               <TableSortLabel
-                active={orderBy === "employee_name"}
-                direction={orderBy === "employee_name" ? order : "asc"}
-                onClick={() => handleSortRequest("employee_name")}
+                active={orderBy === "doctor_name"}
+                direction={orderBy === "doctor_name" ? order : "asc"}
+                onClick={() => handleSortRequest("doctor_name")}
               >
                 Name
               </TableSortLabel>
             </TableCell>
             <TableCell align="left">
               <TableSortLabel
-                active={orderBy === "employee_age"}
-                direction={orderBy === "employee_age" ? order : "asc"}
-                onClick={() => handleSortRequest("employee_age")}
+                active={orderBy === "doctor_specialty"}
+                direction={orderBy === "doctor_specialty" ? order : "asc"}
+                onClick={() => handleSortRequest("doctor_specialty")}
               >
-                Age
+                Specialty
               </TableSortLabel>
             </TableCell>
-            <TableCell align="left">Department</TableCell>
+            <TableCell align="left">Location</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {sortedEmployees.map((employee) => (
+          {sortedDoctors.map((docotor) => (
             <TableRow
-              key={employee.id}
+              key={docotor.id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {employee.id}
+                {docotor.id}
               </TableCell>
-              <TableCell align="left">{employee.name}</TableCell>
-              <TableCell align="left">{employee.age}</TableCell>
-              <TableCell align="left">{employee.department}</TableCell>
+              <TableCell align="left">{docotor.name}</TableCell>
+              <TableCell align="left">{docotor.specialty}</TableCell>
+              <TableCell align="left">{docotor.location}</TableCell>
             </TableRow>
           ))}
         </TableBody>
