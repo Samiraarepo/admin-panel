@@ -2,16 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useMode, ColorModeContext } from "./theme";
 // import { ThemeProvider } from "@emotion/react";
 import { ThemeProvider, CssBaseline } from "@mui/material";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useParams,
-} from "react-router-dom"; //????????
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Dashboard from "./layouts/dashboard";
 import Table from "./components/Table";
-import Form from "./components/EmployeeInfo";
+import Form from "./components/DoctorInfo";
 import ErrorPage from "./components/ErrorPage";
 import EditDoctor from "./components/EditDoctor";
 import axios from "axios";
