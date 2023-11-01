@@ -18,7 +18,7 @@ const Item = ({ to, title, icon, selected, setSelected }) => {
   return (
     <MenuItem
       active={selected === title}
-      style={{ color: colors.grey[100] }}
+      style={{ color: colors.grey[200] }}
       onClick={() => setSelected(title)}
       icon={icon}
     >
@@ -50,8 +50,14 @@ const SidebarMenu = () => {
           "& .pro-inner-item:hover": {
             color: "#868dfb !important",
           },
+          "& .ps-menu-button:hover": {
+            backgroundColor: "rgba(17, 205, 239, 0.1) !important",
+          },
           "& .pro-menu-item.active": {
             color: "#6870fa !important",
+          },
+          "& .css-1wvake5": {
+            border: "0",
           },
         }}
       >

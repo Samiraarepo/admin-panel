@@ -10,6 +10,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
 import TableSortLabel from "@mui/material/TableSortLabel";
+import { TextField } from "@mui/material";
 
 export default function DoctorTable() {
   const [doctors, setDoctors] = useState([
@@ -24,6 +25,7 @@ export default function DoctorTable() {
   ]);
   const [orderBy, setOrderBy] = useState("doctor_name");
   const [order, setOrder] = useState("asc");
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     axios
@@ -42,70 +44,87 @@ export default function DoctorTable() {
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
-  //?!
-  const sortedDoctors = doctors.slice().sort((a, b) => {
-    const orderMultiplier = order === "asc" ? 1 : -1;
-    if (orderBy === "doctor_ID") {
-      return orderMultiplier * (a.id - b.id);
-    } else if (orderBy === "doctor_name") {
-      return orderMultiplier * a.name.localeCompare(b.name);
-    } else if (orderBy === "doctor_specialty") {
-      return orderMultiplier * a.name.localeCompare(b.name);
-    }
-    return 0;
-  });
-
+  // Sorting and Filtering logic
+  const sortedAndFilteredDoctors = doctors
+    .slice()
+    .sort((a, b) => {
+      const orderMultiplier = order === "asc" ? 1 : -1;
+      if (orderBy === "doctor_ID") {
+        return orderMultiplier * (a.id - b.id);
+      } else if (orderBy === "doctor_name") {
+        return orderMultiplier * a.name.localeCompare(b.name);
+      } else if (orderBy === "doctor_specialty") {
+        return orderMultiplier * a.specialty.localeCompare(b.specialty);
+      }
+      return 0;
+    })
+    .filter((doctor) => {
+      return (
+        doctor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        doctor.specialty.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        doctor.location.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    });
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{}} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell align="left">
-              <TableSortLabel
-                active={orderBy === "doctor_ID"}
-                direction={orderBy === "doctor_ID" ? order : "asc"}
-                onClick={() => handleSortRequest("doctor_ID")}
-              >
-                ID
-              </TableSortLabel>
-            </TableCell>
-            <TableCell align="left">
-              <TableSortLabel
-                active={orderBy === "doctor_name"}
-                direction={orderBy === "doctor_name" ? order : "asc"}
-                onClick={() => handleSortRequest("doctor_name")}
-              >
-                Name
-              </TableSortLabel>
-            </TableCell>
-            <TableCell align="left">
-              <TableSortLabel
-                active={orderBy === "doctor_specialty"}
-                direction={orderBy === "doctor_specialty" ? order : "asc"}
-                onClick={() => handleSortRequest("doctor_specialty")}
-              >
-                Specialty
-              </TableSortLabel>
-            </TableCell>
-            <TableCell align="left">Location</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {sortedDoctors.map((docotor) => (
-            <TableRow
-              key={docotor.id}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {docotor.id}
+    <div>
+      <TextField
+        label="Search"
+        variant="outlined"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        style={{ marginBottom: "16px" }}
+      />
+      <TableContainer component={Paper}>
+        <Table sx={{}} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell align="left">
+                <TableSortLabel
+                  active={orderBy === "doctor_ID"}
+                  direction={orderBy === "doctor_ID" ? order : "asc"}
+                  onClick={() => handleSortRequest("doctor_ID")}
+                >
+                  ID
+                </TableSortLabel>
               </TableCell>
-              <TableCell align="left">{docotor.name}</TableCell>
-              <TableCell align="left">{docotor.specialty}</TableCell>
-              <TableCell align="left">{docotor.location}</TableCell>
+              <TableCell align="left">
+                <TableSortLabel
+                  active={orderBy === "doctor_name"}
+                  direction={orderBy === "doctor_name" ? order : "asc"}
+                  onClick={() => handleSortRequest("doctor_name")}
+                >
+                  Name
+                </TableSortLabel>
+              </TableCell>
+              <TableCell align="left">
+                <TableSortLabel
+                  active={orderBy === "doctor_specialty"}
+                  direction={orderBy === "doctor_specialty" ? order : "asc"}
+                  onClick={() => handleSortRequest("doctor_specialty")}
+                >
+                  Specialty
+                </TableSortLabel>
+              </TableCell>
+              <TableCell align="left">Location</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {sortedAndFilteredDoctors.map((docotor) => (
+              <TableRow
+                key={docotor.id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {docotor.id}
+                </TableCell>
+                <TableCell align="left">{docotor.name}</TableCell>
+                <TableCell align="left">{docotor.specialty}</TableCell>
+                <TableCell align="left">{docotor.location}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
   );
 }

@@ -2,19 +2,13 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 
-import { CircularProgress, createTheme, ThemeProvider } from "@mui/material";
+import { CircularProgress, useTheme, ThemeProvider } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import Snackbar from "@mui/material/Snackbar";
 import Slide from "@mui/material/Slide";
-
-const theme = createTheme({
-  typography: {
-    fontSize: 22,
-  },
-});
 
 const CustomButton = styled(Button)({
   boxShadow: "none",
@@ -44,6 +38,7 @@ function TransitionLeft(props) {
   return <Slide {...props} direction="left" />;
 }
 export default function BasicTextFields() {
+  const theme = useTheme();
   const [formData, setFormData] = React.useState({
     id: 0,
     name: "",
@@ -152,7 +147,7 @@ export default function BasicTextFields() {
       <Box
         component="form"
         sx={{
-          "& > :not(style)": { width: "35rem", m: 4 },
+          "& > :not(style)": { m: 4 },
           justifyContent: "center",
         }}
         noValidate
