@@ -121,7 +121,7 @@ export default function BasicTextFields() {
     setIsLoading(true);
 
     axios
-      .post("./sample.json", {
+      .post("http://localhost:3000/doctors", {
         name: formData.name,
         specialty: formData.specialty,
         location: formData.location,

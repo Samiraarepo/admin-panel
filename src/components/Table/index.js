@@ -10,7 +10,9 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
 import TableSortLabel from "@mui/material/TableSortLabel";
-import { TextField } from "@mui/material";
+import { TextField, IconButton } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
 export default function DoctorTable() {
   const [doctors, setDoctors] = useState([
@@ -23,22 +25,29 @@ export default function DoctorTable() {
       email: "",
     },
   ]);
+  // const [columns, setColumns] = useState([]);
   const [orderBy, setOrderBy] = useState("doctor_name");
   const [order, setOrder] = useState("asc");
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     axios
-      .get("./sample.json")
+      .get("http://localhost:3000/doctors")
       .then((response) => {
+        // setColumns(Object.keys(response.data[0]));
         setDoctors(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error("Error fetching Data:", error);
       });
-  }, []); //https://dummy.restapiexample.com/api/v1/employees
+  }, []);
 
+  const handleDelete = (doctorId) => {
+    console.log("Delete doctor with ID:", doctorId);
+  };
+  const handleEdit = (doctorId) => {
+    console.log("Edit doctor with ID:", doctorId);
+  };
   const handleSortRequest = (property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -65,6 +74,7 @@ export default function DoctorTable() {
         doctor.location.toLowerCase().includes(searchTerm.toLowerCase())
       );
     });
+
   return (
     <div>
       <TextField
@@ -78,6 +88,21 @@ export default function DoctorTable() {
         <Table sx={{}} aria-label="simple table">
           <TableHead>
             <TableRow>
+              {/* {columns.map((c, i) => {
+                return (
+                  <TableCell align="left">
+                    <TableSortLabel
+                      active={orderBy === "doctor_ID"}
+                      direction={orderBy === "doctor_ID" ? order : "asc"}
+                      onClick={() => handleSortRequest(c)}
+                      key={i}
+                    >
+                      {c}
+                    </TableSortLabel>
+                  </TableCell>
+                );
+              })} */}
+
               <TableCell align="left">
                 <TableSortLabel
                   active={orderBy === "doctor_ID"}
@@ -106,20 +131,35 @@ export default function DoctorTable() {
                 </TableSortLabel>
               </TableCell>
               <TableCell align="left">Location</TableCell>
+              <TableCell align="left">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {sortedAndFilteredDoctors.map((docotor) => (
+            {sortedAndFilteredDoctors.map((doctor) => (
               <TableRow
-                key={docotor.id}
+                key={doctor.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {docotor.id}
+                  {doctor.id}
                 </TableCell>
-                <TableCell align="left">{docotor.name}</TableCell>
-                <TableCell align="left">{docotor.specialty}</TableCell>
-                <TableCell align="left">{docotor.location}</TableCell>
+                <TableCell align="left">{doctor.name}</TableCell>
+                <TableCell align="left">{doctor.specialty}</TableCell>
+                <TableCell align="left">{doctor.location}</TableCell>
+                <TableCell align="left">
+                  <IconButton
+                    color="secondary"
+                    onClick={() => handleEdit(doctor.id)}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton
+                    color="secondary"
+                    onClick={() => handleDelete(doctor.id)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

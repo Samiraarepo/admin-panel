@@ -35,7 +35,7 @@ const SidebarMenu = () => {
   const [selected, setSelected] = useState("Dashboard");
 
   return (
-    <div style={{ height: "100vh" }}>
+    <div>
       <Box
         sx={{
           "& .pro-sidebar-inner": {
@@ -140,7 +140,7 @@ const SidebarMenu = () => {
               />
 
               <Item
-                title="Employees"
+                title="Doctors"
                 to="/doctor"
                 icon={<PeopleOutlinedIcon />}
                 selected={selected}

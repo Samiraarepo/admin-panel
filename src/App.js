@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useMode, ColorModeContext } from "./theme";
 // import { ThemeProvider } from "@emotion/react";
 import { ThemeProvider, CssBaseline } from "@mui/material";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route, useParams } from "react-router-dom"; //????????
 
 import Dashboard from "./layouts/dashboard";
 import Table from "./components/Table";
@@ -21,7 +21,7 @@ function App() {
   useEffect(() => {
     // Only make the GET request if id is defined (i.e., when visiting /user/:id route)
     axios
-      .get(`./sample.json`)
+      .get("http://localhost:3000/doctors")
       .then((response) => {
         setDoctors(response.data);
       })

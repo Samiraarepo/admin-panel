@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-// import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -39,7 +39,7 @@ function TransitionLeft(props) {
 }
 function EditDoctor({ onUpdateDoctor, doctors }) {
   const theme = useTheme();
-  // const { id } = useParams();
+  const { id } = useParams();
   const [formData, setFormData] = React.useState({
     id: "",
     name: "",
@@ -64,7 +64,7 @@ function EditDoctor({ onUpdateDoctor, doctors }) {
 
   useEffect(() => {
     axios
-      .get("./sample.json")
+      .get("http://localhost:3000/doctors")
       .then((response) => {
         const doctor = response.data;
 
@@ -82,7 +82,7 @@ function EditDoctor({ onUpdateDoctor, doctors }) {
       .catch((error) => {
         console.error("Error fetching employee data:", error);
       });
-  }, []); //http://localhost:3005/user/${id}
+  }, [id]); //http://localhost:3005/user/${id}
 
   const handleChange = (e) => {
     const { name, value } = e.target;
