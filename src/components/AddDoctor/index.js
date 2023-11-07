@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
-
+import * as React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+
 import { CircularProgress, useTheme, ThemeProvider } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
@@ -14,8 +13,8 @@ import Slide from "@mui/material/Slide";
 const CustomButton = styled(Button)({
   boxShadow: "none",
   textTransform: "none",
-  fontSize: 14,
-  color: "#fff",
+  fontSize: 16,
+  color: " #fff",
   padding: "6px 12px",
   border: "1px solid",
   lineHeight: 1.5,
@@ -35,14 +34,14 @@ const CustomButton = styled(Button)({
     boxShadow: "0 0 0 0.2rem rgba(0,123,255,.5)",
   },
 });
+
 function TransitionLeft(props) {
   return <Slide {...props} direction="left" />;
 }
-function EditDoctor({ onUpdateDoctor, doctors }) {
+export default function AddDoctor() {
   const theme = useTheme();
-  const { id } = useParams();
   const [formData, setFormData] = React.useState({
-    id: "",
+    id: 0,
     name: "",
     specialty: "",
     location: "",
@@ -58,33 +57,19 @@ function EditDoctor({ onUpdateDoctor, doctors }) {
     phone: "",
     email: "",
   });
+
   const [isLoading, setIsLoading] = React.useState(false);
+
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
   const [snackbarMessage, setSnackbarMessage] = React.useState("");
+
   const [transition, setTransition] = React.useState(undefined);
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:3000/doctors")
-      .then((response) => {
-        const doctor = response.data;
+  const handleClick = (Transition) => () => {
+    setTransition(() => Transition);
+  };
 
-        if (doctor) {
-          setFormData({
-            id: doctor.id,
-            name: doctor.name,
-            specialty: doctor.specialty,
-            location: doctor.location,
-          });
-        } else {
-          showSnackbar(`Employee not defined!!`);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching employee data:", error);
-      });
-  }, [id]); //http://localhost:3005/user/${id}
-
+  /*update state*/
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -102,13 +87,13 @@ function EditDoctor({ onUpdateDoctor, doctors }) {
     setSnackbarMessage(message);
     setSnackbarOpen(true);
   };
-  /* Validation */
-  const checkValidation = (errors) => {
-    errors = { ...formErrors };
 
-    errors.id = !formData.id ? "user Id is required" : "";
-    errors.name = !formData.name.trim() ? "name is required" : "";
-    errors.specialty = !formData.specialty ? "Please enter your specialty" : "";
+  /*VALIDATION*/
+  const checkValidation = () => {
+    const errors = { ...formErrors };
+    errors.name = !formData.name.trim() ? "Name is required" : "";
+    errors.id = !formData.id ? "id is required" : "";
+
     setFormErrors(errors);
   };
   const validateField = (name, value) => {
@@ -119,24 +104,45 @@ function EditDoctor({ onUpdateDoctor, doctors }) {
       case "name":
         checkValidation(value);
         break;
-      case "specialty":
+      case "speciality":
+        checkValidation(value);
+        break;
+      case "location":
         checkValidation(value);
         break;
       default:
         return true;
     }
   };
-  const handleSubmit = (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
+    console.log("Button clicked");
+
     checkValidation();
     setIsLoading(true);
-    // Update the employee in your JSON file or database
-    onUpdateDoctor(formData);
-    // Redirect the user or show a success message
-  };
-  const handleClick = (Transition) => () => {
-    setTransition(() => Transition);
-  };
+
+    axios
+      .post("http://localhost:3000/doctors", {
+        name: formData.name,
+        specialty: formData.specialty,
+        location: formData.location,
+      })
+      .then((response) => {
+        console.log("Post created:", response.data);
+        showSnackbar(
+          `Post with ${JSON.stringify(response.data.id)}'s userId created...`
+        );
+      })
+
+      .catch((err) => {
+        console.error("Error creating post:", err);
+        showSnackbar(`Error creating post: ${JSON.stringify(err)}`);
+      })
+      .finally(() => {
+        setIsLoading(false);
+        console.log(isLoading);
+      });
+  }; //http://localhost:3005/user
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -146,11 +152,12 @@ function EditDoctor({ onUpdateDoctor, doctors }) {
           justifyContent: "center",
         }}
         noValidate
-        onSubmit={handleSubmit}
+        onSubmit={submitHandler}
         autoComplete="off"
       >
         <div>
           <TextField
+            fullWidth
             helperText={formErrors.name ? "" : "Please enter your Name"}
             error={Boolean(formErrors.name)}
             id="outlined-basic"
@@ -158,7 +165,6 @@ function EditDoctor({ onUpdateDoctor, doctors }) {
             name="name"
             value={formData.name}
             onChange={handleChange}
-            fullWidth
             required
           />
         </div>
@@ -167,10 +173,10 @@ function EditDoctor({ onUpdateDoctor, doctors }) {
             helperText={"Please enter your location"}
             id="outlined-start-adornment"
             label="location"
+            fullWidth
             name="location"
             value={formData.location}
             onChange={handleChange}
-            fullWidth
           />
         </div>
 
@@ -180,11 +186,12 @@ function EditDoctor({ onUpdateDoctor, doctors }) {
             error={Boolean(formErrors.id)}
             id="demo-helper-txt-misaligned"
             label="id"
+            fullWidth
+            type="number"
             name="id"
             value={formData.id}
             onChange={handleChange}
             required
-            fullWidth
           />
         </div>
         <div>
@@ -193,11 +200,11 @@ function EditDoctor({ onUpdateDoctor, doctors }) {
             error={Boolean(formErrors.specialty)}
             id="demo-helper-txt-misaligned"
             label="specialty"
+            fullWidth
             name="specialty"
             value={formData.specialty}
             onChange={handleChange}
             required
-            fullWidth
           />
         </div>
 
@@ -210,7 +217,7 @@ function EditDoctor({ onUpdateDoctor, doctors }) {
               variant="outlined"
               onClick={handleClick(TransitionLeft)}
             >
-              Edit Doctor
+              Create Doctor
             </CustomButton>
           )}
         </Stack>
@@ -226,5 +233,3 @@ function EditDoctor({ onUpdateDoctor, doctors }) {
     </ThemeProvider>
   );
 }
-
-export default EditDoctor;

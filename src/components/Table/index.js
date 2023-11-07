@@ -10,10 +10,48 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
 import TableSortLabel from "@mui/material/TableSortLabel";
-import { TextField, IconButton } from "@mui/material";
+import { TextField, IconButton, Button } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
+import { styled } from "@mui/material/styles";
+import { Link } from "react-router-dom";
 
+const AddButton = styled(Button)({
+  boxShadow: "none",
+  textTransform: "none",
+  fontSize: 16,
+  padding: "6px 12px",
+  lineHeight: 1.5,
+  marginLeft: "10px",
+  backgroundColor: "#fff",
+
+  fontFamily: [
+    "-apple-system",
+    "BlinkMacSystemFont",
+    '"Segoe UI"',
+    "Roboto",
+    '"Helvetica Neue"',
+    "Arial",
+    "sans-serif",
+    '"Apple Color Emoji"',
+    '"Segoe UI Emoji"',
+    '"Segoe UI Symbol"',
+  ].join(","),
+  "&:hover": {
+    border: "1px solid #fff",
+    backgroundColor: "rgba(20, 27, 45, 0.08)",
+    color: "#fff",
+  },
+  "&:active": {
+    boxShadow: "none",
+    backgroundColor: "#0062cc",
+    borderColor: "#005cbf",
+  },
+  "&:focus": {
+    boxShadow: "0 0 0 0.2rem rgba(0,123,255,.5)",
+  },
+});
 export default function DoctorTable() {
   const [doctors, setDoctors] = useState([
     {
@@ -84,6 +122,11 @@ export default function DoctorTable() {
         onChange={(e) => setSearchTerm(e.target.value)}
         style={{ marginBottom: "16px" }}
       />
+      <Link to="/create">
+        <AddButton variant="outlined" startIcon={<AddCircleOutlinedIcon />}>
+          Add
+        </AddButton>
+      </Link>
       <TableContainer component={Paper}>
         <Table sx={{}} aria-label="simple table">
           <TableHead>

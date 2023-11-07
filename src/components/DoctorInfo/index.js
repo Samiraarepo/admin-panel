@@ -9,11 +9,13 @@ import Button from "@mui/material/Button";
 import axios from "axios";
 import Snackbar from "@mui/material/Snackbar";
 import Slide from "@mui/material/Slide";
+import { useNavigate } from "react-router";
 
 const CustomButton = styled(Button)({
   boxShadow: "none",
   textTransform: "none",
-  fontSize: 16,
+  fontSize: 14,
+  color: "#fff",
   padding: "6px 12px",
   border: "1px solid",
   lineHeight: 1.5,
@@ -37,7 +39,7 @@ const CustomButton = styled(Button)({
 function TransitionLeft(props) {
   return <Slide {...props} direction="left" />;
 }
-export default function BasicTextFields() {
+export default function DoctorInfo() {
   const theme = useTheme();
   const [formData, setFormData] = React.useState({
     id: 0,
@@ -113,6 +115,7 @@ export default function BasicTextFields() {
         return true;
     }
   };
+  const navigat = useNavigate();
   const submitHandler = (e) => {
     e.preventDefault();
     console.log("Button clicked");
@@ -127,10 +130,11 @@ export default function BasicTextFields() {
         location: formData.location,
       })
       .then((response) => {
-        console.log("Post created:", response.data);
+        console.log("New Doctor created:", response.data);
         showSnackbar(
-          `Post with ${JSON.stringify(response.data.id)}'s userId created...`
+          `Doctor with ${JSON.stringify(response.data.id)}'s userId created...`
         );
+        navigat("/");
       })
 
       .catch((err) => {
@@ -142,6 +146,7 @@ export default function BasicTextFields() {
         console.log(isLoading);
       });
   }; //http://localhost:3005/user
+
   return (
     <ThemeProvider theme={theme}>
       <Box

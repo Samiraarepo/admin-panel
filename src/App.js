@@ -2,15 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useMode, ColorModeContext } from "./theme";
 // import { ThemeProvider } from "@emotion/react";
 import { ThemeProvider, CssBaseline } from "@mui/material";
-import { Routes, Route, useParams } from "react-router-dom"; //????????
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Dashboard from "./layouts/dashboard";
 import Table from "./components/Table";
 import Form from "./components/DoctorInfo";
 import ErrorPage from "./components/ErrorPage";
 import EditDoctor from "./components/EditDoctor";
-import axios from "axios";
+import AddDoctor from "./components/AddDoctor";
 import Sidebar from "./layouts/global/Sidebar";
+import axios from "axios";
 
 function App() {
   const [doctors, setDoctors] = useState([]);
@@ -49,38 +50,41 @@ function App() {
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <div className="app">
-          <>
-            {/* <Link to="/table"> Table </Link>
+        <BrowserRouter>
+          <div className="app">
+            <>
+              {/* <Link to="/table"> Table </Link>
             <br />
             <Link to="/form"> Form </Link>
             <br />
             <Link to="/doctor"> Employees </Link>
             <br />
             <Link to="/"> Dashboard </Link> */}
-            <Sidebar />
-            <main className="content">
-              <Routes>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/table" element={<Table />} />
-                <Route path="/form" element={<Form />} />
-                <Route
-                  path="/doctor/id"
-                  element={
-                    <EditDoctor
-                      doctors={doctors}
-                      onUpdateDoctor={onUpdateDoctor}
-                    />
-                  }
-                />
-                {/* /:id the path shouldn't be like this /employee/:id */}
+              <Sidebar />
+              <main className="content">
+                <Routes>
+                  <Route path="/" element={<Dashboard />} />
+                  <Route path="/table" element={<Table />} />
+                  <Route path="/form" element={<Form />} />
+                  <Route
+                    path="/doctor/id"
+                    element={
+                      <EditDoctor
+                        doctors={doctors}
+                        onUpdateDoctor={onUpdateDoctor}
+                      />
+                    }
+                  />
+                  {/* /:id the path shouldn't be like this /employee/:id */}
 
-                <Route path="/doctor" element={<EditDoctor />} />
-                <Route path="*" element={<ErrorPage />} />
-              </Routes>
-            </main>
-          </>
-        </div>
+                  <Route path="/doctor" element={<EditDoctor />} />
+                  <Route path="/create" element={<AddDoctor />} />
+                  <Route path="*" element={<ErrorPage />} />
+                </Routes>
+              </main>
+            </>
+          </div>
+        </BrowserRouter>
       </ThemeProvider>
     </ColorModeContext.Provider>
   );
