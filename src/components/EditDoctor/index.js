@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -38,7 +38,17 @@ const CustomButton = styled(Button)({
 function TransitionLeft(props) {
   return <Slide {...props} direction="left" />;
 }
-function EditDoctor({ onUpdateDoctor, doctors }) {
+function EditDoctor({
+  validateField,
+  checkValidation,
+
+  snackbarMessage,
+  snackbarOpen,
+  onUpdateDoctor,
+  setSnackbarOpen,
+  showSnackbar,
+  doctors,
+}) {
   const theme = useTheme();
   const { id } = useParams();
   const [formData, setFormData] = React.useState({
@@ -59,13 +69,13 @@ function EditDoctor({ onUpdateDoctor, doctors }) {
     email: "",
   });
   const [isLoading, setIsLoading] = React.useState(false);
-  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
-  const [snackbarMessage, setSnackbarMessage] = React.useState("");
+
   const [transition, setTransition] = React.useState(undefined);
+  const navigat = useNavigate();
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/doctors")
+      .get("http://localhost:3000/doctors/" + id)
       .then((response) => {
         const doctor = response.data;
 
@@ -83,8 +93,20 @@ function EditDoctor({ onUpdateDoctor, doctors }) {
       .catch((error) => {
         console.error("Error fetching employee data:", error);
       });
-  }, [id]); //http://localhost:3005/user/${id}
+  }, []); //http://localhost:3005/user/${id}
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    checkValidation();
+    setIsLoading(true);
+    // Update the employee in your JSON file or database
+    axios
+      .put("http://localhost:3000/doctors/" + id, formData)
+      .then((res) => showSnackbar("data successfully updated..."));
+    navigat("/");
+    onUpdateDoctor(formData);
+    // Redirect the user or show a success message
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -98,42 +120,11 @@ function EditDoctor({ onUpdateDoctor, doctors }) {
     });
   };
 
-  const showSnackbar = (message) => {
-    setSnackbarMessage(message);
-    setSnackbarOpen(true);
-  };
-  /* Validation */
-  const checkValidation = (errors) => {
-    errors = { ...formErrors };
+  // const showSnackbar = (message) => {
+  //   setSnackbarMessage(message);
+  //   setSnackbarOpen(true);
+  // };
 
-    errors.id = !formData.id ? "user Id is required" : "";
-    errors.name = !formData.name.trim() ? "name is required" : "";
-    errors.specialty = !formData.specialty ? "Please enter your specialty" : "";
-    setFormErrors(errors);
-  };
-  const validateField = (name, value) => {
-    switch (name) {
-      case "id":
-        checkValidation(value);
-        break;
-      case "name":
-        checkValidation(value);
-        break;
-      case "specialty":
-        checkValidation(value);
-        break;
-      default:
-        return true;
-    }
-  };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    checkValidation();
-    setIsLoading(true);
-    // Update the employee in your JSON file or database
-    onUpdateDoctor(formData);
-    // Redirect the user or show a success message
-  };
   const handleClick = (Transition) => () => {
     setTransition(() => Transition);
   };
@@ -146,8 +137,8 @@ function EditDoctor({ onUpdateDoctor, doctors }) {
           justifyContent: "center",
         }}
         noValidate
-        onSubmit={handleSubmit}
         autoComplete="off"
+        onSubmit={handleSubmit}
       >
         <div>
           <TextField
@@ -157,9 +148,9 @@ function EditDoctor({ onUpdateDoctor, doctors }) {
             label="Name"
             name="name"
             value={formData.name}
-            onChange={handleChange}
             fullWidth
             required
+            onChange={handleChange}
           />
         </div>
         <div>
@@ -182,9 +173,9 @@ function EditDoctor({ onUpdateDoctor, doctors }) {
             label="id"
             name="id"
             value={formData.id}
-            onChange={handleChange}
             required
             fullWidth
+            disabled
           />
         </div>
         <div>
@@ -195,7 +186,6 @@ function EditDoctor({ onUpdateDoctor, doctors }) {
             label="specialty"
             name="specialty"
             value={formData.specialty}
-            onChange={handleChange}
             required
             fullWidth
           />

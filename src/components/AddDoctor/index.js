@@ -38,7 +38,14 @@ const CustomButton = styled(Button)({
 function TransitionLeft(props) {
   return <Slide {...props} direction="left" />;
 }
-export default function AddDoctor() {
+export default function AddDoctor({
+  showSnackbar,
+  snackbarMessage,
+  snackbarOpen,
+  setSnackbarOpen,
+  validateField,
+  checkValidation,
+}) {
   const theme = useTheme();
   const [formData, setFormData] = React.useState({
     id: 0,
@@ -60,9 +67,6 @@ export default function AddDoctor() {
 
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
-  const [snackbarMessage, setSnackbarMessage] = React.useState("");
-
   const [transition, setTransition] = React.useState(undefined);
 
   const handleClick = (Transition) => () => {
@@ -83,37 +87,6 @@ export default function AddDoctor() {
     });
   };
 
-  const showSnackbar = (message) => {
-    setSnackbarMessage(message);
-    setSnackbarOpen(true);
-  };
-
-  /*VALIDATION*/
-  const checkValidation = () => {
-    const errors = { ...formErrors };
-    errors.name = !formData.name.trim() ? "Name is required" : "";
-    errors.id = !formData.id ? "id is required" : "";
-
-    setFormErrors(errors);
-  };
-  const validateField = (name, value) => {
-    switch (name) {
-      case "id":
-        checkValidation(value);
-        break;
-      case "name":
-        checkValidation(value);
-        break;
-      case "speciality":
-        checkValidation(value);
-        break;
-      case "location":
-        checkValidation(value);
-        break;
-      default:
-        return true;
-    }
-  };
   const submitHandler = (e) => {
     e.preventDefault();
     console.log("Button clicked");

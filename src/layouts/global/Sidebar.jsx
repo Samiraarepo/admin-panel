@@ -3,12 +3,12 @@ import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import { tokens } from "../../theme";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-
+import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import BackupTableIcon from "@mui/icons-material/BackupTable";
 
 const Item = ({ to, title, icon, selected, setSelected }) => {
@@ -16,16 +16,16 @@ const Item = ({ to, title, icon, selected, setSelected }) => {
   const colors = tokens(theme.palette.mode);
 
   return (
-    <MenuItem
-      active={selected === title}
-      style={{ color: colors.grey[200] }}
-      onClick={() => setSelected(title)}
-      icon={icon}
-    >
-      <Link to={to}>
+    <Link to={to}>
+      <MenuItem
+        active={selected === title}
+        style={{ color: colors.grey[200] }}
+        onClick={() => setSelected(title)}
+        icon={icon}
+      >
         <Typography>{title}</Typography>
-      </Link>
-    </MenuItem>
+      </MenuItem>
+    </Link>
   );
 };
 const SidebarMenu = () => {
@@ -147,18 +147,32 @@ const SidebarMenu = () => {
                 setSelected={setSelected}
               />
 
-              <Item
+              {/* <Item
                 title="Profile Form"
                 to="/form"
                 icon={<HomeOutlinedIcon />}
                 selected={selected}
                 setSelected={setSelected}
-              />
+              /> */}
 
               <Item
                 title="Profile"
-                to="/"
+                to="/form"
                 icon={<PersonOutlinedIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+              <Item
+                title="Sign In"
+                to="/"
+                icon={<ExitToAppOutlinedIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+              <Item
+                title="Sign Up"
+                to="/"
+                icon={<LockOpenOutlinedIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />

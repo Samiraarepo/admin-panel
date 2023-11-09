@@ -15,7 +15,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
 import { styled } from "@mui/material/styles";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const AddButton = styled(Button)({
   boxShadow: "none",
@@ -52,7 +52,7 @@ const AddButton = styled(Button)({
     boxShadow: "0 0 0 0.2rem rgba(0,123,255,.5)",
   },
 });
-export default function DoctorTable() {
+export default function DoctorTable({ showSnackbar }) {
   const [doctors, setDoctors] = useState([
     {
       id: 0,
@@ -68,6 +68,8 @@ export default function DoctorTable() {
   const [order, setOrder] = useState("asc");
   const [searchTerm, setSearchTerm] = useState("");
 
+  const navigat = useNavigate();
+
   useEffect(() => {
     axios
       .get("http://localhost:3000/doctors")
@@ -80,12 +82,20 @@ export default function DoctorTable() {
       });
   }, []);
 
-  const handleDelete = (doctorId) => {
-    console.log("Delete doctor with ID:", doctorId);
+  const handleDelete = (id) => {
+    console.log("Delete doctor with ID:", id);
+    const conf = window.confirm("Do you want to delete?");
+    if (conf) {
+      axios
+        .delete("http://localhost:3000/doctors/" + id)
+        .then((res) => {
+          showSnackbar("record has deleted!!");
+          navigat("/");
+        })
+        .catch((err) => console.log(err));
+    }
   };
-  const handleEdit = (doctorId) => {
-    console.log("Edit doctor with ID:", doctorId);
-  };
+
   const handleSortRequest = (property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -190,15 +200,15 @@ export default function DoctorTable() {
                 <TableCell align="left">{doctor.specialty}</TableCell>
                 <TableCell align="left">{doctor.location}</TableCell>
                 <TableCell align="left">
+                  <Link to={`/update/${doctor.id}`}>
+                    <IconButton color="secondary">
+                      <EditIcon />
+                    </IconButton>
+                  </Link>
+
                   <IconButton
                     color="secondary"
-                    onClick={() => handleEdit(doctor.id)}
-                  >
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton
-                    color="secondary"
-                    onClick={() => handleDelete(doctor.id)}
+                    onClick={(e) => handleDelete(doctor.id)}
                   >
                     <DeleteIcon />
                   </IconButton>

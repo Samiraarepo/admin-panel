@@ -26,11 +26,9 @@
     },
     {
       "id": 4,
-      "name": "Dr. Lisa Patel",
+      "name": "Dr. Lisa Potter",
       "specialty": "Obstetrician",
-      "location": "101 Pine Lane, Hamletsville, State",
-      "phone": "(555) 456-7890",
-      "email": "lisa.patel@example.com"
+      "location": "101 Pine Lane, Hamletsville, State"
     },
     {
       "id": 5,
@@ -49,28 +47,16 @@
       "email": "emily.lewis@example.com"
     },
     {
-      "id": 7,
-      "name": "Dr. Robert Turner",
-      "specialty": "Neurologist",
-      "location": "222 Elm Street, Cityville, State",
-      "phone": "(555) 789-0123",
-      "email": "robert.turner@example.com"
-    },
-    {
       "id": 8,
       "name": "Dr. Maria Rodriguez",
       "specialty": "Gynecologist",
-      "location": "999 Pine Road, Hamletsville, State",
-      "phone": "(555) 890-1234",
-      "email": "maria.rodriguez@example.com"
+      "location": "999 Pine Road, Hamletsville, State"
     },
     {
       "id": 9,
       "name": "Dr. James White",
       "specialty": "General Practitioner",
-      "location": "444 Oak Lane, Villagetown, State",
-      "phone": "(555) 901-2345",
-      "email": "james.white@example.com"
+      "location": "744 Oak Lane, Villagetown, State"
     },
     {
       "id": 10,
@@ -113,28 +99,12 @@
       "email": "karen.baker@example.com"
     },
     {
-      "id": 15,
-      "name": "Dr. Daniel Wilson",
-      "specialty": "Pulmonologist",
-      "location": "111 Elm Street, Townsville, State",
-      "phone": "(555) 567-8901",
-      "email": "daniel.wilson@example.com"
-    },
-    {
       "id": 16,
       "name": "Dr. Linda Martinez",
       "specialty": "Rheumatologist",
       "location": "222 Pine Lane, Cityville, State",
       "phone": "(555) 678-9012",
       "email": "linda.martinez@example.com"
-    },
-    {
-      "id": 17,
-      "name": "Dr. Thomas Anderson",
-      "specialty": "ENT Specialist",
-      "location": "333 Maple Avenue, Villagetown, State",
-      "phone": "(555) 789-0123",
-      "email": "thomas.anderson@example.com"
     },
     {
       "id": 18,
@@ -153,17 +123,15 @@
       "email": "kevin.lee@example.com"
     },
     {
-      "id": 20,
-      "name": "Dr. Susan Taylor",
-      "specialty": "Oncologist",
-      "location": "666 Pine Lane, Cityville, State",
-      "phone": "(555) 012-3456",
-      "email": "susan.taylor@example.com"
+      "name": "Dr Kianimehr",
+      "specialty": "psychiatrist",
+      "location": "fanland",
+      "id": 20
     },
     {
-      "name": "",
-      "specialty": "",
-      "location": "",
+      "name": "Dr Kianimehr",
+      "specialty": "psychiatrist",
+      "location": "fanland",
       "id": 21
     },
     {
@@ -171,18 +139,6 @@
       "specialty": "",
       "location": "",
       "id": 22
-    },
-    {
-      "name": "",
-      "specialty": "",
-      "location": "",
-      "id": 23
-    },
-    {
-      "name": "dr. azimi",
-      "specialty": "Neurologist",
-      "location": "Motahari, fajr st",
-      "id": 24
     }
   ]
 }

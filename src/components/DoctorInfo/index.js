@@ -39,7 +39,7 @@ const CustomButton = styled(Button)({
 function TransitionLeft(props) {
   return <Slide {...props} direction="left" />;
 }
-export default function DoctorInfo() {
+export default function DoctorInfo({ validateField, checkValidation }) {
   const theme = useTheme();
   const [formData, setFormData] = React.useState({
     id: 0,
@@ -89,32 +89,6 @@ export default function DoctorInfo() {
     setSnackbarOpen(true);
   };
 
-  /*VALIDATION*/
-  const checkValidation = () => {
-    const errors = { ...formErrors };
-    errors.name = !formData.name.trim() ? "Name is required" : "";
-    errors.id = !formData.id ? "id is required" : "";
-
-    setFormErrors(errors);
-  };
-  const validateField = (name, value) => {
-    switch (name) {
-      case "id":
-        checkValidation(value);
-        break;
-      case "name":
-        checkValidation(value);
-        break;
-      case "speciality":
-        checkValidation(value);
-        break;
-      case "location":
-        checkValidation(value);
-        break;
-      default:
-        return true;
-    }
-  };
   const navigat = useNavigate();
   const submitHandler = (e) => {
     e.preventDefault();
