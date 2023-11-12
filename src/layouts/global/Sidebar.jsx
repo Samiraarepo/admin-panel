@@ -147,14 +147,6 @@ const SidebarMenu = () => {
                 setSelected={setSelected}
               />
 
-              {/* <Item
-                title="Profile Form"
-                to="/form"
-                icon={<HomeOutlinedIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              /> */}
-
               <Item
                 title="Profile"
                 to="/form"

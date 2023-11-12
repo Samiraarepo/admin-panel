@@ -125,10 +125,16 @@ function App() {
                       <EditDoctor
                         doctors={doctors}
                         onUpdateDoctor={onUpdateDoctor}
+                        formData={formData}
+                        setFormData={setFormData}
+                        formErrors={formErrors}
+                        setFormErrors={setFormErrors}
                         snackbarMessage={snackbarMessage}
                         snackbarOpen={snackbarOpen}
                         setSnackbarOpen={setSnackbarOpen}
                         showSnackbar={showSnackbar}
+                        checkValidation={checkValidation}
+                        validateField={validateField}
                       />
                     }
                   />

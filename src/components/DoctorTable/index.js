@@ -1,21 +1,28 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+// import Table from "@mui/material/Table";
+// import TableBody from "@mui/material/TableBody";
+// import TableCell from "@mui/material/TableCell";
+// import TableContainer from "@mui/material/TableContainer";
+// import TableHead from "@mui/material/TableHead";
+// import TableRow from "@mui/material/TableRow";
+// import Paper from "@mui/material/Paper";
 
-import TableSortLabel from "@mui/material/TableSortLabel";
-import { TextField, IconButton, Button } from "@mui/material";
+// import TableSortLabel from "@mui/material/TableSortLabel";
+import {
+  useTheme,
+  ThemeProvider,
+  TextField,
+  IconButton,
+  Button,
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
 import { styled } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
+import { DataGrid } from "@mui/x-data-grid";
 
 const AddButton = styled(Button)({
   boxShadow: "none",
@@ -53,6 +60,7 @@ const AddButton = styled(Button)({
   },
 });
 export default function DoctorTable({ showSnackbar }) {
+  const theme = useTheme();
   const [doctors, setDoctors] = useState([
     {
       id: 0,
@@ -63,12 +71,52 @@ export default function DoctorTable({ showSnackbar }) {
       email: "",
     },
   ]);
-  // const [columns, setColumns] = useState([]);
-  const [orderBy, setOrderBy] = useState("doctor_name");
-  const [order, setOrder] = useState("asc");
+
   const [searchTerm, setSearchTerm] = useState("");
 
   const navigat = useNavigate();
+
+  const pageSize = 5;
+
+  const columns = [
+    {
+      field: "name",
+      headerName: "Name",
+      flex: 1,
+      editable: true,
+    },
+    { field: "location", headerName: "Location", flex: 1, editable: true },
+    { field: "id", headerName: "ID", flex: 1, editable: false },
+    { field: "specialty", headerName: "Specialty", flex: 1, editable: true },
+    {
+      field: "action",
+      headerName: "Action",
+      sortable: false,
+      width: 120,
+      renderCell: (params) => (
+        <>
+          <IconButton
+            color="secondary"
+            onClick={() => handleEdit(params.row.id)}
+          >
+            <EditIcon />
+          </IconButton>
+
+          <IconButton
+            color="secondary"
+            onClick={(e) => handleDelete(params.row.id)}
+          >
+            <DeleteIcon />
+          </IconButton>
+        </>
+      ),
+    },
+  ];
+  useEffect(() => {
+    axios.get("http://localhost:3000/doctors").then((res) => {
+      setDoctors(res.data);
+    });
+  }, []);
 
   useEffect(() => {
     axios
@@ -90,31 +138,29 @@ export default function DoctorTable({ showSnackbar }) {
         .delete("http://localhost:3000/doctors/" + id)
         .then((res) => {
           showSnackbar("record has deleted!!");
-          navigat("/");
+          fetchData();
         })
         .catch((err) => console.log(err));
     }
   };
-
-  const handleSortRequest = (property) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
+  const handleEdit = (id) => {
+    // Use the navigate function to redirect to the edit page
+    navigat(`/update/${id}`);
   };
-  // Sorting and Filtering logic
-  const sortedAndFilteredDoctors = doctors
+  const fetchData = () => {
+    axios
+      .get("http://localhost:3000/doctors")
+      .then((response) => {
+        setDoctors(response.data);
+        showSnackbar("Data successfully fetched.");
+      })
+      .catch((error) => console.error("Error fetching data:", error));
+  };
+
+  // Search
+  const filteredDoctors = doctors
     .slice()
-    .sort((a, b) => {
-      const orderMultiplier = order === "asc" ? 1 : -1;
-      if (orderBy === "doctor_ID") {
-        return orderMultiplier * (a.id - b.id);
-      } else if (orderBy === "doctor_name") {
-        return orderMultiplier * a.name.localeCompare(b.name);
-      } else if (orderBy === "doctor_specialty") {
-        return orderMultiplier * a.specialty.localeCompare(b.specialty);
-      }
-      return 0;
-    })
+
     .filter((doctor) => {
       return (
         doctor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -124,7 +170,7 @@ export default function DoctorTable({ showSnackbar }) {
     });
 
   return (
-    <div>
+    <ThemeProvider theme={theme}>
       <TextField
         label="Search"
         variant="outlined"
@@ -137,25 +183,10 @@ export default function DoctorTable({ showSnackbar }) {
           Add
         </AddButton>
       </Link>
-      <TableContainer component={Paper}>
+      {/* <TableContainer component={Paper}>
         <Table sx={{}} aria-label="simple table">
           <TableHead>
             <TableRow>
-              {/* {columns.map((c, i) => {
-                return (
-                  <TableCell align="left">
-                    <TableSortLabel
-                      active={orderBy === "doctor_ID"}
-                      direction={orderBy === "doctor_ID" ? order : "asc"}
-                      onClick={() => handleSortRequest(c)}
-                      key={i}
-                    >
-                      {c}
-                    </TableSortLabel>
-                  </TableCell>
-                );
-              })} */}
-
               <TableCell align="left">
                 <TableSortLabel
                   active={orderBy === "doctor_ID"}
@@ -217,7 +248,22 @@ export default function DoctorTable({ showSnackbar }) {
             ))}
           </TableBody>
         </Table>
-      </TableContainer>
-    </div>
+      </TableContainer> */}
+      <div style={{ height: 400, width: "100%" }}>
+        <DataGrid
+          rows={filteredDoctors}
+          columns={columns}
+          pageSize={pageSize}
+          rowsPerPageOptions={[pageSize]}
+          pagination
+          checkboxSelection
+          initialState={{
+            sorting: {
+              sortModel: [{ field: "id", sort: "desc" }],
+            },
+          }}
+        />
+      </div>
+    </ThemeProvider>
   );
 }

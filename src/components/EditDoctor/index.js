@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+
 import { CircularProgress, useTheme, ThemeProvider } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
@@ -38,41 +39,14 @@ const CustomButton = styled(Button)({
 function TransitionLeft(props) {
   return <Slide {...props} direction="left" />;
 }
-function EditDoctor({
-  validateField,
-  checkValidation,
-
-  snackbarMessage,
-  snackbarOpen,
-  onUpdateDoctor,
-  setSnackbarOpen,
-  showSnackbar,
-  doctors,
-}) {
+function EditDoctor(props) {
   const theme = useTheme();
   const { id } = useParams();
-  const [formData, setFormData] = React.useState({
-    id: "",
-    name: "",
-    specialty: "",
-    location: "",
-    phone: "",
-    email: "",
-  });
 
-  const [formErrors, setFormErrors] = React.useState({
-    id: "",
-    name: "",
-    specialty: "",
-    location: "",
-    phone: "",
-    email: "",
-  });
   const [isLoading, setIsLoading] = React.useState(false);
 
   const [transition, setTransition] = React.useState(undefined);
   const navigat = useNavigate();
-
   useEffect(() => {
     axios
       .get("http://localhost:3000/doctors/" + id)
@@ -80,14 +54,14 @@ function EditDoctor({
         const doctor = response.data;
 
         if (doctor) {
-          setFormData({
+          props.setFormData({
             id: doctor.id,
             name: doctor.name,
             specialty: doctor.specialty,
             location: doctor.location,
           });
         } else {
-          showSnackbar(`Employee not defined!!`);
+          props.showSnackbar(`Employee not defined!!`);
         }
       })
       .catch((error) => {
@@ -97,25 +71,25 @@ function EditDoctor({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    checkValidation();
+    props.checkValidation();
     setIsLoading(true);
     // Update the employee in your JSON file or database
     axios
-      .put("http://localhost:3000/doctors/" + id, formData)
-      .then((res) => showSnackbar("data successfully updated..."));
+      .put("http://localhost:3000/doctors/" + id, props.formData)
+      .then((res) => props.showSnackbar("data successfully updated..."));
     navigat("/");
-    onUpdateDoctor(formData);
+    props.onUpdateDoctor(props.formData);
     // Redirect the user or show a success message
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    props.setFormData({
+      ...props.formData,
       [name]: value,
     });
-    const validationResult = validateField(name, value);
-    setFormErrors({
-      ...formErrors,
+    const validationResult = props.validateField(name, value);
+    props.setFormErrors({
+      ...props.formErrors,
       [name]: validationResult,
     });
   };
@@ -142,12 +116,12 @@ function EditDoctor({
       >
         <div>
           <TextField
-            helperText={formErrors.name ? "" : "Please enter your Name"}
-            error={Boolean(formErrors.name)}
+            helperText={props.formErrors.name ? "" : "Please enter your Name"}
+            error={Boolean(props.formErrors.name)}
             id="outlined-basic"
             label="Name"
             name="name"
-            value={formData.name}
+            value={props.formData.name}
             fullWidth
             required
             onChange={handleChange}
@@ -159,7 +133,7 @@ function EditDoctor({
             id="outlined-start-adornment"
             label="location"
             name="location"
-            value={formData.location}
+            value={props.formData.location}
             onChange={handleChange}
             fullWidth
           />
@@ -168,11 +142,11 @@ function EditDoctor({
         <div>
           <TextField
             helperText={"Please enter your ID"}
-            error={Boolean(formErrors.id)}
+            error={Boolean(props.formErrors.id)}
             id="demo-helper-txt-misaligned"
             label="id"
             name="id"
-            value={formData.id}
+            value={props.formData.id}
             required
             fullWidth
             disabled
@@ -181,11 +155,11 @@ function EditDoctor({
         <div>
           <TextField
             helperText={"Please enter your specialty"}
-            error={Boolean(formErrors.specialty)}
+            error={Boolean(props.formErrors.specialty)}
             id="demo-helper-txt-misaligned"
             label="specialty"
             name="specialty"
-            value={formData.specialty}
+            value={props.formData.specialty}
             required
             fullWidth
           />
@@ -207,10 +181,10 @@ function EditDoctor({
         <Snackbar
           TransitionComponent={transition}
           key={transition ? transition.name : ""}
-          open={snackbarOpen}
+          open={props.snackbarOpen}
           autoHideDuration={5000}
-          onClose={() => setSnackbarOpen(false)}
-          message={snackbarMessage}
+          onClose={() => props.setSnackbarOpen(false)}
+          message={props.snackbarMessage}
         ></Snackbar>
       </Box>
     </ThemeProvider>
