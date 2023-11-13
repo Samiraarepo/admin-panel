@@ -43,10 +43,12 @@ function EditDoctor(props) {
   const theme = useTheme();
   const { id } = useParams();
 
+  const [doctors, setDoctors] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
-
   const [transition, setTransition] = React.useState(undefined);
+
   const navigat = useNavigate();
+
   useEffect(() => {
     axios
       .get("http://localhost:3000/doctors/" + id)
@@ -69,6 +71,21 @@ function EditDoctor(props) {
       });
   }, []); //http://localhost:3005/user/${id}
 
+  const onUpdateDoctor = (formData) => {
+    // Find the index of the doctor to update in the doctors array
+    const doctorIndex = doctors.findIndex((emp) => emp.id === formData.id);
+
+    if (doctorIndex !== -1) {
+      // Create a copy of the doctors array
+      const updateDoctors = [...doctors];
+
+      // Update the doctor with the new data
+      updateDoctors[doctorIndex] = formData;
+
+      // Update the state with the new array
+      setDoctors(updateDoctors);
+    }
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     props.checkValidation();
@@ -76,9 +93,17 @@ function EditDoctor(props) {
     // Update the employee in your JSON file or database
     axios
       .put("http://localhost:3000/doctors/" + id, props.formData)
-      .then((res) => props.showSnackbar("data successfully updated..."));
-    navigat("/");
-    props.onUpdateDoctor(props.formData);
+      .then(() => {
+        // props.showSnackbar("data successfully updated...");
+        setIsLoading(false);
+        navigat("/table");
+        onUpdateDoctor(props.formData);
+      })
+      .catch((error) => {
+        console.error(error);
+        setIsLoading(false);
+      });
+
     // Redirect the user or show a success message
   };
   const handleChange = (e) => {
@@ -93,11 +118,6 @@ function EditDoctor(props) {
       [name]: validationResult,
     });
   };
-
-  // const showSnackbar = (message) => {
-  //   setSnackbarMessage(message);
-  //   setSnackbarOpen(true);
-  // };
 
   const handleClick = (Transition) => () => {
     setTransition(() => Transition);
@@ -160,6 +180,7 @@ function EditDoctor(props) {
             label="specialty"
             name="specialty"
             value={props.formData.specialty}
+            onChange={handleChange}
             required
             fullWidth
           />
