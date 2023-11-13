@@ -1,10 +1,34 @@
 {
   "doctors": [
     {
+      "id": 1,
+      "name": "Dr. John Smith",
+      "specialty": "Cardiologist",
+      "location": "123 Main Street, Cityville, State",
+      "phone": "(555) 123-4567",
+      "email": "john.smith@example.com"
+    },
+    {
+      "id": 2,
+      "name": "Dr. Sarah Johnson",
+      "specialty": "Dermatologist",
+      "location": "456 Elm Avenue, Townsville, State",
+      "phone": "(555) 234-5678",
+      "email": "sarah.johnson@example.com"
+    },
+    {
       "id": 3,
-      "name": "Dr. Michael Davissss",
+      "name": "Dr. Michael Davis",
       "specialty": "Pediatrician",
-      "location": "789 Oak Road, Villagetown, State"
+      "location": "789 Oak Road, Villagetown, State",
+      "phone": "(555) 345-6789",
+      "email": "michael.davis@example.com"
+    },
+    {
+      "id": 4,
+      "name": "Dr. Lisa Potter",
+      "specialty": "Obstetrician",
+      "location": "101 Pine Lane, Hamletsville, State"
     },
     {
       "id": 5,
@@ -24,13 +48,21 @@
       "id": 8,
       "name": "Dr. Maria Rodriguez",
       "specialty": "Gynecologist",
-      "location": "999 Pine Road, Hamletsville"
+      "location": "999 Pine Road, Hamletsville, State"
     },
     {
       "id": 9,
       "name": "Dr. James White",
       "specialty": "General Practitioner",
       "location": "744 Oak Lane, Villagetown, State"
+    },
+    {
+      "id": 10,
+      "name": "Dr. Laura Clark",
+      "specialty": "Psychiatrist",
+      "location": "333 Maple Road, Cityville, State",
+      "phone": "(555) 012-3456",
+      "email": "laura.clark@example.com"
     },
     {
       "id": 11,
@@ -50,9 +82,11 @@
     },
     {
       "id": 13,
-      "name": "Dr. Richard Evansssssssss",
+      "name": "Dr. Richard Evans",
       "specialty": "Urologist",
-      "location": "555 Maple Lane, Cityville, State"
+      "location": "555 Maple Lane, Cityville, State",
+      "phone": "(555) 345-6789",
+      "email": "richard.evans@example.com"
     },
     {
       "id": 14,
@@ -69,6 +103,14 @@
       "location": "222 Pine Lane, Cityville, State",
       "phone": "(555) 678-9012",
       "email": "linda.martinez@example.com"
+    },
+    {
+      "id": 18,
+      "name": "Dr. Jessica Hall",
+      "specialty": "Nephrologist",
+      "location": "444 Oak Road, Hamletsville, State",
+      "phone": "(555) 890-1234",
+      "email": "jessica.hall@example.com"
     },
     {
       "id": 19,
@@ -89,30 +131,6 @@
       "name": "Dr. ahmadi",
       "specialty": "",
       "location": "Netherlands"
-    },
-    {
-      "id": 23,
-      "name": "saeedsaeed",
-      "specialty": "",
-      "location": "hague"
-    },
-    {
-      "id": 25,
-      "name": "samiraa",
-      "specialty": "Psychologist",
-      "location": "tehran"
-    },
-    {
-      "name": "",
-      "specialty": "",
-      "location": "",
-      "id": 26
-    },
-    {
-      "name": "",
-      "specialty": "",
-      "location": "",
-      "id": 27
     }
   ]
 }

@@ -39,7 +39,7 @@ const CustomButton = styled(Button)({
 function TransitionLeft(props) {
   return <Slide {...props} direction="left" />;
 }
-export default function DoctorInfo({ validateField, checkValidation }) {
+export default function DoctorInfo(props) {
   const theme = useTheme();
   const [formData, setFormData] = React.useState({
     id: 0,
@@ -62,7 +62,6 @@ export default function DoctorInfo({ validateField, checkValidation }) {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
-  const [snackbarMessage, setSnackbarMessage] = React.useState("");
 
   const [transition, setTransition] = React.useState(undefined);
 
@@ -77,24 +76,24 @@ export default function DoctorInfo({ validateField, checkValidation }) {
       ...formData,
       [name]: value,
     });
-    const validationResult = validateField(name, value);
+    const validationResult = props.validateField(name, value);
     setFormErrors({
       ...formErrors,
       [name]: validationResult,
     });
   };
 
-  const showSnackbar = (message) => {
-    setSnackbarMessage(message);
-    setSnackbarOpen(true);
-  };
+  // const showSnackbar = (message) => {
+  //   setSnackbarMessage(message);
+  //   setSnackbarOpen(true);
+  // };
 
   const navigat = useNavigate();
   const submitHandler = (e) => {
     e.preventDefault();
     console.log("Button clicked");
 
-    checkValidation();
+    props.checkValidation();
     setIsLoading(true);
 
     axios
@@ -105,7 +104,7 @@ export default function DoctorInfo({ validateField, checkValidation }) {
       })
       .then((response) => {
         console.log("New Doctor created:", response.data);
-        showSnackbar(
+        props.showSnackbar(
           `Doctor with ${JSON.stringify(response.data.id)}'s userId created...`
         );
         navigat("/");
@@ -113,7 +112,7 @@ export default function DoctorInfo({ validateField, checkValidation }) {
 
       .catch((err) => {
         console.error("Error creating post:", err);
-        showSnackbar(`Error creating post: ${JSON.stringify(err)}`);
+        props.showSnackbar(`Error creating post: ${JSON.stringify(err)}`);
       })
       .finally(() => {
         setIsLoading(false);
@@ -205,7 +204,7 @@ export default function DoctorInfo({ validateField, checkValidation }) {
           open={snackbarOpen}
           autoHideDuration={5000}
           onClose={() => setSnackbarOpen(false)}
-          message={snackbarMessage}
+          message={props.snackbarMessage}
         ></Snackbar>
       </Box>
     </ThemeProvider>
