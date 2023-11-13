@@ -72,8 +72,12 @@ export default function DoctorTable({ showSnackbar }) {
     },
   ]);
 
+  // const [columns, setColumns] = useState([]);
+  // const [orderBy, setOrderBy] = useState("doctor_name");
+  // const [order, setOrder] = useState("asc");
   const [searchTerm, setSearchTerm] = useState("");
-
+  // const [selectionModel, setSelectionModel] = useState([]);
+  // const [rows, setRows] = React.useState([]);
   const navigat = useNavigate();
 
   const pageSize = 5;
@@ -113,17 +117,10 @@ export default function DoctorTable({ showSnackbar }) {
     },
   ];
   useEffect(() => {
-    axios.get("http://localhost:3000/doctors").then((res) => {
-      setDoctors(res.data);
-    });
-  }, []);
-
-  useEffect(() => {
     axios
       .get("http://localhost:3000/doctors")
-      .then((response) => {
-        // setColumns(Object.keys(response.data[0]));
-        setDoctors(response.data);
+      .then((res) => {
+        setDoctors(res.data);
       })
       .catch((error) => {
         console.error("Error fetching Data:", error);
@@ -156,18 +153,20 @@ export default function DoctorTable({ showSnackbar }) {
       })
       .catch((error) => console.error("Error fetching data:", error));
   };
+  // const handleSortRequest = (property) => {
+  //   const isAsc = orderBy === property && order === "asc";
+  //   setOrder(isAsc ? "desc" : "asc");
+  //   setOrderBy(property);
+  // };
 
   // Search
-  const filteredDoctors = doctors
-    .slice()
-
-    .filter((doctor) => {
-      return (
-        doctor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        doctor.specialty.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        doctor.location.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    });
+  const filteredDoctors = doctors.slice().filter((doctor) => {
+    return (
+      doctor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      doctor.specialty.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      doctor.location.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
 
   return (
     <ThemeProvider theme={theme}>
@@ -259,7 +258,7 @@ export default function DoctorTable({ showSnackbar }) {
           checkboxSelection
           initialState={{
             sorting: {
-              sortModel: [{ field: "id", sort: "desc" }],
+              sortModel: [{ field: "name", sort: "desc" }],
             },
           }}
         />
