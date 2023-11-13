@@ -16,16 +16,15 @@ const Item = ({ to, title, icon, selected, setSelected }) => {
   const colors = tokens(theme.palette.mode);
 
   return (
-    <Link to={to}>
-      <MenuItem
-        active={selected === title}
-        style={{ color: colors.grey[200] }}
-        onClick={() => setSelected(title)}
-        icon={icon}
-      >
-        <Typography>{title}</Typography>
-      </MenuItem>
-    </Link>
+    <MenuItem
+      active={selected === title}
+      style={{ color: colors.grey[200] }}
+      onClick={() => setSelected(title)}
+      icon={icon}
+      component={<Link to={to}></Link>}
+    >
+      <Typography>{title}</Typography>
+    </MenuItem>
   );
 };
 const SidebarMenu = () => {
@@ -141,7 +140,7 @@ const SidebarMenu = () => {
 
               <Item
                 title="Doctors"
-                to="/doctor"
+                to="/create"
                 icon={<PeopleOutlinedIcon />}
                 selected={selected}
                 setSelected={setSelected}
