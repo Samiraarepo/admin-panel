@@ -94,17 +94,18 @@ function EditDoctor(props) {
     axios
       .put("http://localhost:3000/doctors/" + id, props.formData)
       .then(() => {
-        // props.showSnackbar("data successfully updated...");
-        setIsLoading(false);
-        navigat("/table");
+        //
         onUpdateDoctor(props.formData);
       })
       .catch((error) => {
         console.error(error);
+      })
+      .finally(() => {
         setIsLoading(false);
       });
-
     // Redirect the user or show a success message
+    props.showSnackbar("data successfully updated...");
+    navigat("/table");
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
