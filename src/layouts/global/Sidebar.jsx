@@ -60,7 +60,7 @@ const SidebarMenu = () => {
           },
         }}
       >
-        <Sidebar collapsed={isCollapsed} backgroundColor={colors.primary[600]}>
+        <Sidebar collapsed={isCollapsed} backgroundColor={colors.primary[400]}>
           <Menu iconShape="square">
             {/* LOGO AND MENU ICON */}
             <MenuItem

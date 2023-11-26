@@ -34,17 +34,36 @@ const CustomButton = styled(Button)({
     boxShadow: "0 0 0 0.2rem rgba(0,123,255,.5)",
   },
 });
-
+const CssTextField = styled(TextField)({
+  "& label.Mui-focused": {
+    color: "#A0AAB4",
+  },
+  "& .MuiInput-underline:after": {
+    borderBottomColor: "#B2BAC2",
+  },
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      borderColor: "#E0E3E7",
+    },
+    "&:hover fieldset": {
+      borderColor: "#B2BAC2",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "#6F7E8C",
+    },
+  },
+});
 function TransitionLeft(props) {
   return <Slide {...props} direction="left" />;
 }
 export default function AddDoctor({
-  showSnackbar,
-  snackbarMessage,
-  snackbarOpen,
-  setSnackbarOpen,
-  validateField,
-  checkValidation,
+  // showSnackbar,
+  // snackbarMessage,
+  // snackbarOpen,
+  // setSnackbarOpen,
+  // validateField,
+  // checkValidation,
+  props,
 }) {
   const theme = useTheme();
   const [formData, setFormData] = React.useState({
@@ -80,7 +99,7 @@ export default function AddDoctor({
       ...formData,
       [name]: value,
     });
-    const validationResult = validateField(name, value);
+    const validationResult = props.validateField(name, value);
     setFormErrors({
       ...formErrors,
       [name]: validationResult,
@@ -91,7 +110,7 @@ export default function AddDoctor({
     e.preventDefault();
     console.log("Button clicked");
 
-    checkValidation();
+    props.checkValidation();
     setIsLoading(true);
 
     axios
@@ -102,14 +121,14 @@ export default function AddDoctor({
       })
       .then((response) => {
         console.log("Post created:", response.data);
-        showSnackbar(
+        props.showSnackbar(
           `Post with ${JSON.stringify(response.data.id)}'s userId created...`
         );
       })
 
       .catch((err) => {
         console.error("Error creating post:", err);
-        showSnackbar(`Error creating post: ${JSON.stringify(err)}`);
+        props.showSnackbar(`Error creating post: ${JSON.stringify(err)}`);
       })
       .finally(() => {
         setIsLoading(false);
@@ -129,7 +148,7 @@ export default function AddDoctor({
         autoComplete="off"
       >
         <div>
-          <TextField
+          <CssTextField
             fullWidth
             helperText={formErrors.name ? "" : "Please enter your Name"}
             error={Boolean(formErrors.name)}
@@ -142,7 +161,7 @@ export default function AddDoctor({
           />
         </div>
         <div>
-          <TextField
+          <CssTextField
             helperText={"Please enter your location"}
             id="outlined-start-adornment"
             label="location"
@@ -154,7 +173,7 @@ export default function AddDoctor({
         </div>
 
         <div>
-          <TextField
+          <CssTextField
             helperText={"Please enter your ID"}
             error={Boolean(formErrors.id)}
             id="demo-helper-txt-misaligned"
@@ -168,7 +187,7 @@ export default function AddDoctor({
           />
         </div>
         <div>
-          <TextField
+          <CssTextField
             helperText={"Please enter your specialty"}
             error={Boolean(formErrors.specialty)}
             id="demo-helper-txt-misaligned"
@@ -197,10 +216,10 @@ export default function AddDoctor({
         <Snackbar
           TransitionComponent={transition}
           key={transition ? transition.name : ""}
-          open={snackbarOpen}
+          open={props?.snackbarOpen}
           autoHideDuration={5000}
-          onClose={() => setSnackbarOpen(false)}
-          message={snackbarMessage}
+          onClose={() => props?.setSnackbarOpen(false)}
+          message={props?.snackbarMessage}
         ></Snackbar>
       </Box>
     </ThemeProvider>
