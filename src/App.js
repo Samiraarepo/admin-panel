@@ -6,11 +6,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Dashboard from "./layouts/dashboard";
 import DoctorTable from "./components/DoctorTable";
-import DoctorInfo from "./components/DoctorInfo";
+
 import ErrorPage from "./components/ErrorPage";
 import EditDoctor from "./components/EditDoctor";
 import AddDoctor from "./components/AddDoctor";
 import Sidebar from "./layouts/global/Sidebar";
+import DoctorForm from "./components/DoctorForm";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -36,10 +37,15 @@ function App() {
   const [snackbarMessage, setSnackbarMessage] = React.useState("");
 
   /*VALIDATION*/
-  const checkValidation = () => {
+  const checkValidation = (formData) => {
     const errors = { ...formErrors };
-    errors.name = !formData.name.trim() ? "Name is required" : "";
-    errors.id = !formData.id ? "id is required" : "";
+    // Check if formData and formData.name are defined
+    if (formData && formData.name) {
+      errors.name = !formData.name.trim() ? "Name is required" : "";
+    } else {
+      errors.name = "Name is required";
+    }
+    errors.id = !formData || !formData.id ? "id is required" : "";
 
     setFormErrors(errors);
   };
@@ -84,8 +90,15 @@ function App() {
                   <Route
                     path="/form"
                     element={
-                      <DoctorInfo
+                      <DoctorForm
+                        formData={formData}
+                        setFormData={setFormData}
+                        formErrors={formErrors}
+                        setFormErrors={setFormErrors}
                         showSnackbar={showSnackbar}
+                        snackbarMessage={snackbarMessage}
+                        snackbarOpen={snackbarOpen}
+                        setSnackbarOpen={setSnackbarOpen}
                         validateField={validateField}
                         checkValidation={checkValidation}
                       />
@@ -99,9 +112,6 @@ function App() {
                         setFormData={setFormData}
                         formErrors={formErrors}
                         setFormErrors={setFormErrors}
-                        snackbarMessage={snackbarMessage}
-                        snackbarOpen={snackbarOpen}
-                        setSnackbarOpen={setSnackbarOpen}
                         showSnackbar={showSnackbar}
                         checkValidation={checkValidation}
                         validateField={validateField}
@@ -119,7 +129,7 @@ function App() {
                         snackbarOpen={snackbarOpen}
                         showSnackbar={showSnackbar}
                         validateField={validateField}
-                        checkValidation={checkValidation}
+                        checkValidation={() => checkValidation(formData)}
                       />
                     }
                   />
