@@ -56,15 +56,7 @@ const CssTextField = styled(TextField)({
 function TransitionLeft(props) {
   return <Slide {...props} direction="left" />;
 }
-export default function AddDoctor({
-  // showSnackbar,
-  // snackbarMessage,
-  // snackbarOpen,
-  // setSnackbarOpen,
-  // validateField,
-  // checkValidation,
-  props,
-}) {
+export default function AddDoctor(props) {
   const theme = useTheme();
   const [formData, setFormData] = React.useState({
     id: 0,
