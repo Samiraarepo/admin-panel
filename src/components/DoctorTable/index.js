@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
 // import Table from "@mui/material/Table";
 // import TableBody from "@mui/material/TableBody";
 // import TableCell from "@mui/material/TableCell";
@@ -10,12 +9,14 @@ import axios from "axios";
 // import Paper from "@mui/material/Paper";
 
 // import TableSortLabel from "@mui/material/TableSortLabel";
+import { tokens } from "../../theme";
 import {
   useTheme,
   ThemeProvider,
   TextField,
   IconButton,
   Button,
+  Box,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -81,6 +82,7 @@ const CssTextField = styled(TextField)({
 });
 export default function DoctorTable({ showSnackbar }) {
   const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const [doctors, setDoctors] = useState([
     {
       id: 0,
@@ -116,7 +118,6 @@ export default function DoctorTable({ showSnackbar }) {
       field: "action",
       headerName: "Action",
       sortable: false,
-      width: 120,
       renderCell: (params) => (
         <>
           <IconButton
@@ -190,19 +191,29 @@ export default function DoctorTable({ showSnackbar }) {
 
   return (
     <ThemeProvider theme={theme}>
-      <CssTextField
-        label="Search"
-        variant="outlined"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        style={{ marginBottom: "16px" }}
-      />
-      <Link to="/create">
-        <AddButton variant="outlined" startIcon={<AddCircleOutlinedIcon />}>
-          Add
-        </AddButton>
-      </Link>
-      {/* <TableContainer component={Paper}>
+      <Box>
+        <CssTextField
+          label="Search"
+          variant="outlined"
+          value={searchTerm}
+          id="outlined-size-small"
+          size="small"
+          onChange={(e) => setSearchTerm(e.target.value)}
+          style={{
+            margin: "16px 1px",
+          }}
+        />
+        <Link to="/create">
+          <AddButton
+            variant="outlined"
+            style={{ margin: "16px 4px" }}
+            startIcon={<AddCircleOutlinedIcon />}
+          >
+            Add
+          </AddButton>
+        </Link>
+
+        {/* <TableContainer component={Paper}>
         <Table sx={{}} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -268,21 +279,50 @@ export default function DoctorTable({ showSnackbar }) {
           </TableBody>
         </Table>
       </TableContainer> */}
-      <div style={{ height: 400, width: "100%" }}>
-        <DataGrid
-          rows={filteredDoctors}
-          columns={columns}
-          pageSize={pageSize}
-          rowsPerPageOptions={[pageSize]}
-          pagination
-          checkboxSelection
-          initialState={{
-            sorting: {
-              sortModel: [{ field: "name", sort: "desc" }],
+
+        <Box
+          height="85vh"
+          sx={{
+            "& .MuiDataGrid-root": {
+              border: "none",
+            },
+            "& .MuiDataGrid-cell": {
+              borderBottom: "none",
+            },
+            "& .name-column--cell": {
+              color: colors.greenAccent[300],
+            },
+            "& .MuiDataGrid-columnHeaders": {
+              backgroundColor: colors.blueAccent[700],
+              borderBottom: "none",
+            },
+            "& .MuiDataGrid-virtualScroller": {
+              backgroundColor: colors.primary[400],
+            },
+            "& .MuiDataGrid-footerContainer": {
+              borderTop: "none",
+              backgroundColor: colors.blueAccent[700],
+            },
+            "& .MuiCheckbox-root": {
+              color: `${colors.greenAccent[200]} !important`,
             },
           }}
-        />
-      </div>
+        >
+          <DataGrid
+            rows={filteredDoctors}
+            columns={columns}
+            pageSize={pageSize}
+            rowsPerPageOptions={[pageSize]}
+            pagination
+            checkboxSelection
+            initialState={{
+              sorting: {
+                sortModel: [{ field: "name", sort: "desc" }],
+              },
+            }}
+          />
+        </Box>
+      </Box>
     </ThemeProvider>
   );
 }
