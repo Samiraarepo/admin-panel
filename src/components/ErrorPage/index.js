@@ -25,14 +25,16 @@ export default function Error() {
         alt="404-not-found."
         src={myImg}
       />
-      {/* <Typography variant="h1" style={{ color: "white" }}>
+      <Typography variant="h1" style={{ color: "white", textAlign: "center" }}>
         404
-      </Typography> */}
-      <Typography variant="h6" style={{ color: "white" }}>
-        The page you’re looking for doesn’t exist.
+      </Typography>
+      <Typography>OOP! PAGE NOT FOUND</Typography>
+      <Typography variant="h6" style={{ color: "white", textAlign: "center" }}>
+        Sorry, the page you're looking for doesn't exist. if you think something
+        is brlken, report a problem.
       </Typography>
       <Link to="/">
-        <Button sx={{ mt: 2 }} variant="contained">
+        <Button sx={{ mt: 3 }} variant="contained">
           Back Home
         </Button>
       </Link>
