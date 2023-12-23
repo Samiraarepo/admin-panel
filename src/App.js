@@ -36,15 +36,20 @@ function App() {
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
   const [snackbarMessage, setSnackbarMessage] = React.useState("");
 
+  const [transition, setTransition] = React.useState(undefined);
+  const [isLoading, setIsLoading] = React.useState(false);
   /*VALIDATION*/
+
   const checkValidation = (formData) => {
     const errors = { ...formErrors };
     // Check if formData and formData.name are defined
+
     if (formData && formData.name) {
       errors.name = !formData.name.trim() ? "Name is required" : "";
     } else {
       errors.name = "Name is required";
     }
+
     errors.id = !formData || !formData.id ? "id is required" : "";
 
     setFormErrors(errors);
@@ -94,6 +99,8 @@ function App() {
                         formData={formData}
                         setFormData={setFormData}
                         formErrors={formErrors}
+                        isLoading={isLoading}
+                        setIsLoading={setIsLoading}
                         setFormErrors={setFormErrors}
                         showSnackbar={showSnackbar}
                         snackbarMessage={snackbarMessage}
@@ -101,6 +108,8 @@ function App() {
                         setSnackbarOpen={setSnackbarOpen}
                         validateField={validateField}
                         checkValidation={checkValidation}
+                        transition={transition}
+                        setTransition={setTransition}
                       />
                     }
                   />
@@ -112,9 +121,16 @@ function App() {
                         setFormData={setFormData}
                         formErrors={formErrors}
                         setFormErrors={setFormErrors}
+                        isLoading={isLoading}
+                        setIsLoading={setIsLoading}
                         showSnackbar={showSnackbar}
+                        snackbarOpen={snackbarOpen}
+                        snackbarMessage={snackbarMessage}
+                        setSnackbarOpen={setSnackbarOpen}
                         checkValidation={checkValidation}
                         validateField={validateField}
+                        transition={transition}
+                        setTransition={setTransition}
                       />
                     }
                   />
@@ -124,12 +140,20 @@ function App() {
                     path="/create"
                     element={
                       <AddDoctor
+                        formData={formData}
+                        setFormData={setFormData}
+                        formErrors={formErrors}
+                        setFormErrors={setFormErrors}
+                        isLoading={isLoading}
+                        setIsLoading={setIsLoading}
                         snackbarMessage={snackbarMessage}
                         setSnackbarOpen={setSnackbarOpen}
                         snackbarOpen={snackbarOpen}
                         showSnackbar={showSnackbar}
                         validateField={validateField}
                         checkValidation={() => checkValidation(formData)}
+                        transition={transition}
+                        setTransition={setTransition}
                       />
                     }
                   />
