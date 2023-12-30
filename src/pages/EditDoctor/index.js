@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import DoctorForm from "../DoctorForm";
+import DoctorForm from "../../components/DoctorForm";
 
 function EditDoctor(props) {
   const { id } = useParams();

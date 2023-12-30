@@ -4,14 +4,13 @@ import { useMode, ColorModeContext } from "./theme";
 import { ThemeProvider, CssBaseline } from "@mui/material";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Dashboard from "./layouts/dashboard";
-import DoctorTable from "./components/DoctorTable";
+import Dashboard from "./components/dashboard";
+import DoctorTable from "./components/table";
 
-import ErrorPage from "./components/ErrorPage";
-import EditDoctor from "./components/EditDoctor";
+import ErrorPage from "./pages/ErrorPage";
+import EditDoctor from "./pages/EditDoctor";
 import AddDoctor from "./components/AddDoctor";
-import Sidebar from "./layouts/global/Sidebar";
-import DoctorForm from "./components/DoctorForm";
+import Sidebar from "./components/global/Sidebar";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -92,7 +91,7 @@ function App() {
                     path="/table"
                     element={<DoctorTable showSnackbar={showSnackbar} />}
                   />
-                  <Route
+                  {/* <Route
                     path="/form"
                     element={
                       <DoctorForm
@@ -112,7 +111,7 @@ function App() {
                         setTransition={setTransition}
                       />
                     }
-                  />
+                  /> */}
                   <Route
                     path="/update/:id"
                     element={

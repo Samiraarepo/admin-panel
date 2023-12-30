@@ -37,6 +37,8 @@ const SidebarMenu = () => {
     <div>
       <Box
         sx={{
+          position: "fixed",
+          height: "100vh",
           "& .pro-sidebar-inner": {
             background: `${colors.primary[800]} !important`,
           },
@@ -78,16 +80,6 @@ const SidebarMenu = () => {
                   alignItems="center"
                   ml="10px"
                 >
-                  {/* <img
-                    alt="profile-user"
-                    width="100px"
-                    height="100px"
-                    src={`../../assets/avatar.jpg`}
-                    style={{
-                      cursor: "pointer",
-                      borderRadius: "50%",
-                    }}
-                  /> */}
                   <Typography variant="h5" color={colors.grey[100]}>
                     My Admin Panel
                   </Typography>
@@ -99,26 +91,11 @@ const SidebarMenu = () => {
             </MenuItem>
 
             {!isCollapsed && (
-              <Box mb="25px">
-                <Box
-                  display="flex"
-                  justifyContent="center"
-                  alignItems="center"
-                ></Box>
-                {/* <Box textAlign="center">
-                <Typography
-                  variant="h2"
-                  color={colors.grey[100]}
-                  fontWeight="bold"
-                  sx={{ m: "10px 0 0 0" }}
-                >
-                  Samira Miss
-                </Typography>
-                <Typography variant="h5" color={colors.greenAccent[500]}>
-                  Admin panel
-                </Typography>
-              </Box> */}
-              </Box>
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+              ></Box>
             )}
 
             <Box paddingLeft={isCollapsed ? undefined : "10%"}>
