@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 
@@ -61,8 +61,6 @@ function TransitionLeft(props) {
 export default function DoctorForm(props) {
   const theme = useTheme();
 
-  const [isLoading, setIsLoading] = useState(false);
-
   /*update state*/
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -79,8 +77,24 @@ export default function DoctorForm(props) {
   //****************************************** */
   const handleSubmit = (e) => {
     e.preventDefault();
-    props.submitHandler(props.formData);
+    // Validate each field
+    props.validateField("name", props.formData.name);
+    props.validateField("id", props.formData.id);
+
+    //props.checkValidation(); /
+    // Check if there are errors
+    if (!props.formErrors.name && !props.formErrors.id) {
+      props.setIsLoading(true);
+      // Proceed only if there are no errors
+      if (props.submitHandler) {
+        props.submitHandler(props.formData);
+      } else {
+        console.log("Form submitted directly:", props.formData);
+      }
+    }
+    props.setIsLoading(false);
   };
+
   const handleClick = (Transition) => () => {
     props.setTransition(() => Transition);
   };
@@ -100,7 +114,7 @@ export default function DoctorForm(props) {
         <div>
           <CssTextField
             fullWidth
-            helperText={props.formErrors.name ? "" : "Please enter your Name"}
+            helperText={props.formErrors.name ? "Please enter your Name" : ""}
             error={Boolean(props.formErrors.name)}
             id="outlined-basic"
             label="Name"
@@ -124,7 +138,7 @@ export default function DoctorForm(props) {
 
         <div>
           <CssTextField
-            helperText={"Please enter your ID"}
+            helperText={props.formErrors.id ? "Please enter your ID" : ""}
             error={Boolean(props.formErrors.id)}
             id="demo-helper-txt-misaligned"
             label="id"
@@ -151,7 +165,7 @@ export default function DoctorForm(props) {
         </div>
 
         <Stack spacing={2} direction="row">
-          {isLoading ? (
+          {props.isLoading ? (
             <CircularProgress size={34}></CircularProgress>
           ) : (
             <CustomButton
@@ -159,7 +173,7 @@ export default function DoctorForm(props) {
               variant="outlined"
               onClick={handleClick(TransitionLeft)}
             >
-              {props.buttonText}
+              {props.buttonText || "Create"}
             </CustomButton>
           )}
         </Stack>
