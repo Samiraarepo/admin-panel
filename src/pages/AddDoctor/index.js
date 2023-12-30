@@ -1,5 +1,5 @@
 import * as React from "react";
-import DoctorForm from "../DoctorForm";
+import DoctorForm from "../../components/form";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
