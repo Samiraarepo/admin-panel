@@ -34,121 +34,120 @@ const SidebarMenu = () => {
   const [selected, setSelected] = useState("Dashboard");
 
   return (
-    <div>
-      <Box
-        sx={{
-          position: "fixed",
-          height: "100vh",
-          "& .pro-sidebar-inner": {
-            background: `${colors.primary[800]} !important`,
-          },
-          "& .pro-icon-wrapper": {
-            backgroundColor: "transparent !important",
-          },
-          "& .pro-inner-item": {
-            padding: "5px 35px 5px 20px !important",
-          },
-          "& .pro-inner-item:hover": {
-            color: "#868dfb !important",
-          },
-          "& .ps-menu-button:hover": {
-            backgroundColor: "rgba(17, 205, 239, 0.1) !important",
-          },
-          "& .pro-menu-item.active": {
-            color: "#6870fa !important",
-          },
-          "& .css-1wvake5": {
-            border: "0",
-          },
-        }}
-      >
-        <Sidebar collapsed={isCollapsed} backgroundColor={colors.primary[400]}>
-          <Menu iconShape="square">
-            {/* LOGO AND MENU ICON */}
-            <MenuItem
-              onClick={() => setIsCollapsed(!isCollapsed)}
-              icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
-              style={{
-                margin: "10px 0 20px 0",
-                color: colors.grey[100],
-              }}
-            >
-              {!isCollapsed && (
-                <Box
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
-                  ml="10px"
-                >
-                  <Typography variant="h5" color={colors.grey[100]}>
-                    My Admin Panel
-                  </Typography>
-                  <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
-                    <MenuOutlinedIcon />
-                  </IconButton>
-                </Box>
-              )}
-            </MenuItem>
-
+    <Box
+      sx={{
+        // position: "fixed",
+        // height: "100vh",
+        // zIndex: 1000,
+        "& .pro-sidebar-inner": {
+          background: `${colors.primary[800]} !important`,
+        },
+        "& .pro-icon-wrapper": {
+          backgroundColor: "transparent !important",
+        },
+        "& .pro-inner-item": {
+          padding: "5px 35px 5px 20px !important",
+        },
+        "& .pro-inner-item:hover": {
+          color: "#868dfb !important",
+        },
+        "& .ps-menu-button:hover": {
+          backgroundColor: "rgba(17, 205, 239, 0.1) !important",
+        },
+        "& .pro-menu-item.active": {
+          color: "#6870fa !important",
+        },
+        "& .css-1wvake5": {
+          border: "0",
+        },
+      }}
+    >
+      <Sidebar collapsed={isCollapsed} backgroundColor={colors.primary[400]}>
+        <Menu iconShape="square">
+          {/* LOGO AND MENU ICON */}
+          <MenuItem
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
+            style={{
+              margin: "10px 0 20px 0",
+              color: colors.grey[100],
+            }}
+          >
             {!isCollapsed && (
               <Box
                 display="flex"
-                justifyContent="center"
+                justifyContent="space-between"
                 alignItems="center"
-              ></Box>
+                ml="10px"
+              >
+                <Typography variant="h4" color={colors.grey[100]}>
+                  My Admin Panel
+                </Typography>
+                <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
+                  <MenuOutlinedIcon />
+                </IconButton>
+              </Box>
             )}
+          </MenuItem>
 
-            <Box paddingLeft={isCollapsed ? undefined : "10%"}>
-              <Item
-                title="Dashboard"
-                to="/"
-                icon={<DashboardIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
+          {!isCollapsed && (
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+            ></Box>
+          )}
 
-              <Item
-                title="Table"
-                to="/table"
-                icon={<BackupTableIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
+          <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+            <Item
+              title="Dashboard"
+              to="/"
+              icon={<DashboardIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
 
-              <Item
-                title="Doctors"
-                to="/create"
-                icon={<PeopleOutlinedIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
+            <Item
+              title="Table"
+              to="/table"
+              icon={<BackupTableIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
 
-              <Item
-                title="Profile"
-                to="/form"
-                icon={<PersonOutlinedIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
-              <Item
-                title="Sign In"
-                to="/"
-                icon={<ExitToAppOutlinedIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
-              <Item
-                title="Sign Up"
-                to="/"
-                icon={<LockOpenOutlinedIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
-            </Box>
-          </Menu>
-        </Sidebar>
-      </Box>
-    </div>
+            <Item
+              title="Doctors"
+              to="/create"
+              icon={<PeopleOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+
+            <Item
+              title="Profile"
+              to="/form"
+              icon={<PersonOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Sign In"
+              to="/"
+              icon={<ExitToAppOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Sign Up"
+              to="/"
+              icon={<LockOpenOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+          </Box>
+        </Menu>
+      </Sidebar>
+    </Box>
   );
 };
 
