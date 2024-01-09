@@ -5,7 +5,8 @@ import AppBar from "@mui/material/AppBar";
 
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+import Link from "@mui/material/Link";
 import InputBase from "@mui/material/InputBase";
 import Badge from "@mui/material/Badge";
 // import MenuItem from "@mui/material/MenuItem";
@@ -43,6 +44,19 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   justifyContent: "center",
 }));
 
+function Breadcrumb() {
+  return (
+    <Breadcrumbs aria-label="breadcrumb">
+      <Link color="inherit" href="/">
+        Dashboard
+      </Link>
+      <Link color="inherit" href="/page">
+        Page
+      </Link>
+      <Typography color="text.primary">Current Page</Typography>
+    </Breadcrumbs>
+  );
+}
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   "& .MuiInputBase-input": {
@@ -172,6 +186,7 @@ export default function TopBar() {
             component="div"
             sx={{ display: { xs: "none", sm: "block" } }}
           ></Typography> */}
+          <Breadcrumb />
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
