@@ -15,9 +15,9 @@ body,
   font-family: "Source Sans 3", sans-serif;
 }
 .app {
-  display: flex;
   font-size: 1.5rem;
-  height: 100vh;
+
+  display: flex;
 }
 .MuiTableBody-root .MuiTableRow-root .css-1ex1afd-MuiTableCell-root,
 .MuiTableHead-root .MuiTableRow-root .MuiTableCell-head {
@@ -27,6 +27,9 @@ a {
   text-decoration: none;
   color: #fff;
 }
+/* .content {
+  position: relative;
+} */
 
 /* ::-webkit-scrollbar {
   width: 1rem;
