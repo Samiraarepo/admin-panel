@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { styled } from "@mui/system";
-import { Box, Hidden, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import { tokens } from "../../theme";
 import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
@@ -56,106 +56,100 @@ const SidebarMenu = () => {
 
   return (
     <StyledSidebarMenu>
-      <Box
-        sx={{
-          width: "260px",
+      <Sidebar
+        collapsed={isCollapsed}
+        backgroundColor={colors.primary[400]}
+        lock={true}
+        style={{
+          position: "fixed",
+          height: "100vh",
+          zIndex: 99999,
         }}
       >
-        <Sidebar
-          collapsed={isCollapsed}
-          backgroundColor={colors.primary[400]}
-          lock={true}
-          style={{
-            position: "fixed",
-            height: "100vh",
-            zIndex: 99999,
-          }}
-        >
-          <Menu iconShape="square">
-            {/* LOGO AND MENU ICON */}
-            <MenuItem
-              onClick={() => setIsCollapsed(!isCollapsed)}
-              icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
-              style={{
-                margin: "10px 0 20px 0",
-                color: colors.grey[100],
-              }}
-            >
-              {!isCollapsed && (
-                <Box
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
-                  ml="15px"
-                >
-                  <Typography variant="h4" color={colors.grey[100]}>
-                    My Admin Panel
-                  </Typography>
-                  <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
-                    <MenuOutlinedIcon />
-                  </IconButton>
-                </Box>
-              )}
-            </MenuItem>
-
+        <Menu iconShape="square">
+          {/* LOGO AND MENU ICON */}
+          <MenuItem
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
+            style={{
+              margin: "10px 0 20px 0",
+              color: colors.grey[100],
+            }}
+          >
             {!isCollapsed && (
               <Box
                 display="flex"
-                justifyContent="center"
+                justifyContent="space-between"
                 alignItems="center"
-              ></Box>
+                ml="15px"
+              >
+                <Typography variant="h4" color={colors.grey[100]}>
+                  My Admin Panel
+                </Typography>
+                <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
+                  <MenuOutlinedIcon />
+                </IconButton>
+              </Box>
             )}
+          </MenuItem>
 
-            <Box paddingLeft={isCollapsed ? undefined : "10%"}>
-              <Item
-                title="Dashboard"
-                to="/"
-                icon={<DashboardIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
+          {!isCollapsed && (
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+            ></Box>
+          )}
 
-              <Item
-                title="Table"
-                to="/table"
-                icon={<BackupTableIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
+          <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+            <Item
+              title="Dashboard"
+              to="/"
+              icon={<DashboardIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
 
-              <Item
-                title="Doctors"
-                to="/create"
-                icon={<PeopleOutlinedIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
+            <Item
+              title="Table"
+              to="/table"
+              icon={<BackupTableIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
 
-              <Item
-                title="Profile"
-                to="/form"
-                icon={<PersonOutlinedIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
-              <Item
-                title="Sign In"
-                to="/"
-                icon={<ExitToAppOutlinedIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
-              <Item
-                title="Sign Up"
-                to="/"
-                icon={<LockOpenOutlinedIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
-            </Box>
-          </Menu>
-        </Sidebar>
-      </Box>
+            <Item
+              title="Doctors"
+              to="/create"
+              icon={<PeopleOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+
+            <Item
+              title="Profile"
+              to="/form"
+              icon={<PersonOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Sign In"
+              to="/"
+              icon={<ExitToAppOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Sign Up"
+              to="/"
+              icon={<LockOpenOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+          </Box>
+        </Menu>
+      </Sidebar>
     </StyledSidebarMenu>
   );
 };

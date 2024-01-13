@@ -2,9 +2,9 @@ import React from "react";
 import { useMode, ColorModeContext } from "./theme";
 
 import { Box, ThemeProvider, CssBaseline } from "@mui/material";
+import { styled } from "@mui/system";
 
 import SidebarMenu from "./components/global/Sidebar";
-import { styled } from "@mui/system";
 import TopBar from "./components/global/Topbar";
 import AppRouts from "./router/AppRoutes";
 
