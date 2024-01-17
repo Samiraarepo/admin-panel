@@ -16,6 +16,17 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
+import { Link as RouterLink, useLocation } from "react-router-dom";
+
+const breadcrumbNameMap = {
+  "/": "Home",
+  "/table": "Table",
+  "/form": "Form",
+  "/create": "Create",
+};
+function LinkRouter(props) {
+  return <Link {...props} component={RouterLink} />;
+}
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -44,15 +55,28 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
 }));
 
 function Breadcrumb() {
+  const location = useLocation();
+  const pathnames = location.pathname.split("/").filter((x) => x);
+
   return (
     <Breadcrumbs aria-label="breadcrumb">
-      <Link color="inherit" href="/">
+      <LinkRouter underline="hover" color="inherit" to="/">
         Dashboard
-      </Link>
-      <Link color="inherit" href="/page">
-        Page
-      </Link>
-      <Typography color="text.primary">Current Page</Typography>
+      </LinkRouter>
+      {pathnames.map((value, index) => {
+        const last = index === pathnames.length - 1;
+        const to = `/${pathnames.slice(0, index + 1).join("/")}`;
+
+        return last ? (
+          <Typography color="text.primary" key={to}>
+            {breadcrumbNameMap[to]}
+          </Typography>
+        ) : (
+          <LinkRouter underline="hover" color="inherit" to={to} key={to}>
+            {breadcrumbNameMap[to]}
+          </LinkRouter>
+        );
+      })}
     </Breadcrumbs>
   );
 }

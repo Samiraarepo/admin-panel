@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Dashboard from "../components/dashboard";
 import DoctorTable from "../components/table";
-// import DoctorForm from "./components/form";
+import DoctorForm from "../components/form";
 import ErrorPage from "../pages/ErrorPage";
 import EditDoctor from "../pages/EditDoctor";
 import AddDoctor from "../pages/AddDoctor";
@@ -99,28 +99,28 @@ function AppRouts() {
           />
         }
       />
-      '
-      {/* <Route
-                          path="/form"
-                          element={
-                            <DoctorForm
-                              formData={formData}
-                              setFormData={setFormData}
-                              formErrors={formErrors}
-                              isLoading={isLoading}
-                              setIsLoading={setIsLoading}
-                              setFormErrors={setFormErrors}
-                              showSnackbar={showSnackbar}
-                              snackbarMessage={snackbarMessage}
-                              snackbarOpen={snackbarOpen}
-                              setSnackbarOpen={setSnackbarOpen}
-                              validateField={validateField}
-                              checkValidation={checkValidation}
-                              transition={transition}
-                              setTransition={setTransition}
-                            />
-                          }
-                        /> */}
+
+      <Route
+        path="/form"
+        element={
+          <DoctorForm
+            formData={formData}
+            setFormData={setFormData}
+            formErrors={formErrors}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+            setFormErrors={setFormErrors}
+            showSnackbar={showSnackbar}
+            snackbarMessage={snackbarMessage}
+            snackbarOpen={snackbarOpen}
+            setSnackbarOpen={setSnackbarOpen}
+            validateField={validateField}
+            checkValidation={checkValidation}
+            transition={transition}
+            setTransition={setTransition}
+          />
+        }
+      />
       <Route
         path="/update/:id"
         element={
