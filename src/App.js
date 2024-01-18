@@ -1,19 +1,16 @@
 import React from "react";
 import { useMode, ColorModeContext } from "./theme";
-
 import { Box, ThemeProvider, CssBaseline } from "@mui/material";
 import { styled } from "@mui/system";
-
 import SidebarMenu from "./components/global/Sidebar";
 import TopBar from "./components/global/Topbar";
 import AppRouts from "./router/AppRoutes";
 
-const StyledMainContent = styled("div")(({ isCollapsed }) => ({
+const StyledMainContent = styled("div")({
   width: "100%",
-  marginLeft: isCollapsed ? "80px" : "200px", // Adjust the width of the sidebar
   overflowX: "hidden",
   transition: "margin-left 0.3s ease-in-out",
-}));
+});
 function App({ isCollapsed }) {
   const [theme, colorMode] = useMode();
 
