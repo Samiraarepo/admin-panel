@@ -16,7 +16,7 @@ body,
 }
 .app {
   font-size: 1.5rem;
-
+  height: 100vh;
   display: flex;
 }
 .MuiTableBody-root .MuiTableRow-root .css-1ex1afd-MuiTableCell-root,

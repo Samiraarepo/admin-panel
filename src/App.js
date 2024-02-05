@@ -20,6 +20,7 @@ function App({ isCollapsed }) {
         <CssBaseline />
         <div className="app">
           <SidebarMenu />
+
           <StyledMainContent isCollapsed={isCollapsed}>
             <Box className="content">
               <TopBar />
